@@ -23,7 +23,7 @@
                 <article>
                     <h1 class="entry-title"><a href="http://pollow.github.io/brief-note-git-rebase-xiao-jie.html">[Brief Note] Git rebase 小结</a></h1>
 <footer class="post-info">
-        <abbr class="published" title="2016-01-11T23:20:23+08:00">
+        <abbr class="published" title="2016-01-11T23:26:24+08:00">
                 Published: 一 11 一月 2016
         </abbr>
 
@@ -51,10 +51,10 @@
 </pre></div>
 
 
-<h3>merge or rebase</h3>
+<h2>merge or rebase</h2>
 <p>今天还在阮一峰的博客上看到了<a href="http://www.ruanyifeng.com/blog/2016/01/commit_message_change_log.html">《Commit message 和 Change log 编写指南》</a>这篇文章，介绍了 commit 信息的编写规范，和利用 commit 信息直接生成 Change log 的技术和相应地工具。个人认为这种规范的制定十分合理，在大型系统维护时，追溯版本管理记录是检阅 bug 的最佳方式，而清晰明了富有意义的提交信息无疑提供了更丰富的线索。</p>
 <p>但是本地分支开发时，通常要频繁的进行提交，确保工作记录可以追溯，方便测试和调试，产生的提交记录往往十分散乱并且意义不明，在开发时这些提交有积极地意义，但却是后期的维护时沉重的负担。所以我个人倾向于在分支合并时进行 rebase 操作，时提交信息简单易读又清晰明了。</p>
-<h3>Solution for level 28</h3>
+<h2>Solution for level 28</h2>
 <p>Githug level 28 的任务提示如下：</p>
 <blockquote>
 <p>Your local master branch has diverged from the remote origin/master branch. Rebase your commit onto origin/master and push it to remote.</p>

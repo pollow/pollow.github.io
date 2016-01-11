@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>pollow's blog</title><link href="http://pollow.github.io/" rel="alternate"></link><link href="http://pollow.github.io/feeds/misc.atom.xml" rel="self"></link><id>http://pollow.github.io/</id><updated>2016-01-11T23:20:23+08:00</updated><entry><title>[Brief Note] Git rebase 小结</title><link href="http://pollow.github.io/brief-note-git-rebase-xiao-jie.html" rel="alternate"></link><updated>2016-01-11T23:20:23+08:00</updated><author><name>XING Chang</name></author><id>tag:pollow.github.io,2016-01-11:brief-note-git-rebase-xiao-jie.html</id><summary type="html">&lt;h2&gt;Githug&lt;/h2&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>pollow's blog</title><link href="http://pollow.github.io/" rel="alternate"></link><link href="http://pollow.github.io/feeds/misc.atom.xml" rel="self"></link><id>http://pollow.github.io/</id><updated>2016-01-11T23:26:24+08:00</updated><entry><title>[Brief Note] Git rebase 小结</title><link href="http://pollow.github.io/brief-note-git-rebase-xiao-jie.html" rel="alternate"></link><updated>2016-01-11T23:26:24+08:00</updated><author><name>XING Chang</name></author><id>tag:pollow.github.io,2016-01-11:brief-note-git-rebase-xiao-jie.html</id><summary type="html">&lt;h2&gt;Githug&lt;/h2&gt;
 &lt;p&gt;前几天再 Timeline 上看到有人推荐了一款叫做 Githug 的小游戏，通过解决任务学习 Git 的操作使用。由于感觉自己对于 Git 的使用一直停留在比较初级的阶段，有比较多的知识盲点，所以决定下载下来玩一玩，顺便把&lt;a href=""&gt;题解&lt;/a&gt;和学习笔记分别记录一下。&lt;/p&gt;
 &lt;h2&gt;Pro Git&lt;/h2&gt;
 &lt;p&gt;开始的内容比较简单也比较顺利，在 level 28 第一次遇到了问题——涉及到了rebase。这个功能虽然之前也有使用，但是对于概念一直有所困惑，正巧同时再 Startup News 上看到&lt;a href="http://git-scm.com/book/zh"&gt;《Pro Git 2ed》中文版&lt;/a&gt;翻译校对完成，就顺手上去看了一下有关章节，在这里简略记录一些内容。&lt;/p&gt;
@@ -18,10 +18,10 @@
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;h3&gt;merge or rebase&lt;/h3&gt;
+&lt;h2&gt;merge or rebase&lt;/h2&gt;
 &lt;p&gt;今天还在阮一峰的博客上看到了&lt;a href="http://www.ruanyifeng.com/blog/2016/01/commit_message_change_log.html"&gt;《Commit message 和 Change log 编写指南》&lt;/a&gt;这篇文章，介绍了 commit 信息的编写规范，和利用 commit 信息直接生成 Change log 的技术和相应地工具。个人认为这种规范的制定十分合理，在大型系统维护时，追溯版本管理记录是检阅 bug 的最佳方式，而清晰明了富有意义的提交信息无疑提供了更丰富的线索。&lt;/p&gt;
 &lt;p&gt;但是本地分支开发时，通常要频繁的进行提交，确保工作记录可以追溯，方便测试和调试，产生的提交记录往往十分散乱并且意义不明，在开发时这些提交有积极地意义，但却是后期的维护时沉重的负担。所以我个人倾向于在分支合并时进行 rebase 操作，时提交信息简单易读又清晰明了。&lt;/p&gt;
-&lt;h3&gt;Solution for level 28&lt;/h3&gt;
+&lt;h2&gt;Solution for level 28&lt;/h2&gt;
 &lt;p&gt;Githug level 28 的任务提示如下：&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Your local master branch has diverged from the remote origin/master branch. Rebase your commit onto origin/master and push it to remote.&lt;/p&gt;
