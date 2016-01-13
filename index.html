@@ -21,9 +21,35 @@
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="http://pollow.github.io/brief-note-git-rebase-xiao-jie.html">[Brief Note] Git rebase 小结</a></h1>
+                    <h1 class="entry-title"><a href="http://pollow.github.io/memoenv-android-xue-xi-ri-ji-day-1.html">[Memo][Env] Android 学习日记 Day 1</a></h1>
 <footer class="post-info">
-        <abbr class="published" title="2016-01-11T23:26:24+08:00">
+        <abbr class="published" title="2016-01-13T23:59:42+08:00">
+                Published: 三 13 一月 2016
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="http://pollow.github.io/author/xing-chang.html">XING Chang</a>
+        </address>
+<p>In <a href="http://pollow.github.io/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://pollow.github.io/tag/memo.html">memo</a> <a href="http://pollow.github.io/tag/env.html">env</a> <a href="http://pollow.github.io/tag/android.html">android</a> </p>
+</footer><!-- /.post-info --><h2>前言</h2>
+<p>人生不如意，事十常八九。最嫌弃Java的我正在维护一套legacy的Java Web系统，还在为了帮人做论文而学习Android 开发。</p>
+<h2>环境配置</h2>                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="http://pollow.github.io/brief-note-git-rebase-xiao-jie.html" rel="bookmark"
+                           title="Permalink to [Brief Note] Git rebase 小结">[Brief Note] Git rebase 小结</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2016-01-11T23:26:51+08:00">
                 Published: 一 11 一月 2016
         </abbr>
 
@@ -32,44 +58,16 @@
         </address>
 <p>In <a href="http://pollow.github.io/category/misc.html">misc</a>.</p>
 <p>tags: <a href="http://pollow.github.io/tag/brief.html">brief</a> <a href="http://pollow.github.io/tag/git.html">git</a> </p>
-</footer><!-- /.post-info --><h2>Githug</h2>
+</footer><!-- /.post-info -->                <h2>Githug</h2>
 <p>前几天再 Timeline 上看到有人推荐了一款叫做 Githug 的小游戏，通过解决任务学习 Git 的操作使用。由于感觉自己对于 Git 的使用一直停留在比较初级的阶段，有比较多的知识盲点，所以决定下载下来玩一玩，顺便把<a href="">题解</a>和学习笔记分别记录一下。</p>
 <h2>Pro Git</h2>
 <p>开始的内容比较简单也比较顺利，在 level 28 第一次遇到了问题——涉及到了rebase。这个功能虽然之前也有使用，但是对于概念一直有所困惑，正巧同时再 Startup News 上看到<a href="http://git-scm.com/book/zh">《Pro Git 2ed》中文版</a>翻译校对完成，就顺手上去看了一下有关章节，在这里简略记录一些内容。</p>
 <h2>rebase</h2>
 <p>推荐阅读：<a href="http://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%8F%98%E5%9F%BA">3.6 Git 分支 - 变基</a></p>
-<p>Git 的分支合并有 <code>merge</code> 和 <code>rebase</code> 两种操作。区别在于 merge 只简单的完成代码合并，而 rebase 则是提取两个不同分支（源分支与目标分支）的公共祖先作为基底，生成源分支的 patch 再应用到目标分支上，同时清理冗余的提交。</p>
-<p>概念其实比较简单，只要注意应用到合适的场合，也就是清理冗余提交信息时，就比较合适，原文讲解的十分清晰。</p>
-<p>有一点要注意的是，rebase 操作应当<strong>仅应用到本地仓库的提交记录整理</strong>上，如果 rebase 了远程的提交和分支，则会导致所有参与开发的人得分支依赖变得一片混乱，<strong>『人民群众会仇恨你，你的朋友和家人也会嘲笑你，唾弃你』。</strong></p>
-<p>当然也有解决方案，当公共仓库的提交已经发生 rebase，也就是说本地分支依赖的提交可能已经被删除的时候，不要直接 <code>git pull</code>，而是取到本地后执行 rebase 操作，或者直接：</p>
-<div class="highlight"><pre>git pull --rebase
-</pre></div>
-
-
-<p>Git 的操作规范推荐每次<code>git fetch</code>下来以后视情况决定 merge 和 pull 操作，而我实际上习惯每次直接执行<code>git pull</code>操作。对于这种情况，有一个全局设定可以将<code>git pull</code>操作默认执行<code>--rebase</code>：</p>
-<div class="highlight"><pre>git config --global pull.rebase true
-</pre></div>
-
-
-<h2>merge or rebase</h2>
-<p>今天还在阮一峰的博客上看到了<a href="http://www.ruanyifeng.com/blog/2016/01/commit_message_change_log.html">《Commit message 和 Change log 编写指南》</a>这篇文章，介绍了 commit 信息的编写规范，和利用 commit 信息直接生成 Change log 的技术和相应地工具。个人认为这种规范的制定十分合理，在大型系统维护时，追溯版本管理记录是检阅 bug 的最佳方式，而清晰明了富有意义的提交信息无疑提供了更丰富的线索。</p>
-<p>但是本地分支开发时，通常要频繁的进行提交，确保工作记录可以追溯，方便测试和调试，产生的提交记录往往十分散乱并且意义不明，在开发时这些提交有积极地意义，但却是后期的维护时沉重的负担。所以我个人倾向于在分支合并时进行 rebase 操作，时提交信息简单易读又清晰明了。</p>
-<h2>Solution for level 28</h2>
-<p>Githug level 28 的任务提示如下：</p>
-<blockquote>
-<p>Your local master branch has diverged from the remote origin/master branch. Rebase your commit onto origin/master and push it to remote.</p>
-</blockquote>
-<p>这就是最不应该发生的 <strong>rebase 了公共仓库提交</strong>的情况，按照前文所述的</p>
-<div class="highlight"><pre>git pull --rebase
-</pre></div>
-
-
-<p>拉取数据，之后直接<code>git push</code>即可。</p>                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
+<p>Git 的分支合并有 <code>merge</code> 和 <code>rebase ...</code></p>
+                <a class="readmore" href="http://pollow.github.io/brief-note-git-rebase-xiao-jie.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
 
             <li><article class="hentry">
                 <header>
