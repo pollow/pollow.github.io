@@ -1,5 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>pollow's blog</title><link href="http://pollow.github.io/" rel="alternate"></link><link href="http://pollow.github.io/feeds/all.atom.xml" rel="self"></link><id>http://pollow.github.io/</id><updated>2016-01-14T00:26:11+08:00</updated><entry><title>[Memo][Env] Android 学习日记 Day 1</title><link href="http://pollow.github.io/memoenv-android-xue-xi-ri-ji-day-1.html" rel="alternate"></link><updated>2016-01-14T00:26:11+08:00</updated><author><name>XING Chang</name></author><id>tag:pollow.github.io,2016-01-14:memoenv-android-xue-xi-ri-ji-day-1.html</id><summary type="html">&lt;h2&gt;前言&lt;/h2&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>pollow's blog</title><link href="http://pollow.github.io/" rel="alternate"></link><link href="http://pollow.github.io/feeds/all.atom.xml" rel="self"></link><id>http://pollow.github.io/</id><updated>2016-01-22T13:31:45+08:00</updated><entry><title>Log4j 学习与配置</title><link href="http://pollow.github.io/log4j-xue-xi-yu-pei-zhi.html" rel="alternate"></link><updated>2016-01-22T13:31:45+08:00</updated><author><name>XING Chang</name></author><id>tag:pollow.github.io,2016-01-22:log4j-xue-xi-yu-pei-zhi.html</id><summary type="html">&lt;p&gt;开始的时候就被这个项目居然使用 System.out.println 调试大法震惊了一下，由于我也懒得在架构上动手脚，所以也就随大流将就一下。但是最近遇到几个问题，一是我写的一个方法逻辑太过复杂，有太多的数据库操作（其实应该避免，但是因为API不够丰富，逻辑又十分复杂暂时只能如此了）；二是有一些客户报告了一下我在本地无法复现，有很偶然才会发生的 bug，不得已，我决定使用一下 Logger，在相关的函数中记录一下关键值。&lt;/p&gt;
+&lt;h2&gt;基础使用&lt;/h2&gt;
+&lt;p&gt;记录需要使用 Logger, Logger 应该是单例模型，在应用初始化的时候创建并且保留以后一直使用；不过 LogManager 会处理这些事情，只要提供合适的 Logger 名称，它会在内部管理所有的 Logger。Logger的名字推荐和使用的类名一致，这也是&lt;code&gt;LogManager.getLogger()&lt;/code&gt;的默认行为。&lt;/p&gt;
+&lt;p&gt;常用的又 INFO, DEBUG, WARN, ERROR 四个等级，对应四个函数；可以使用 printf 函数默认调用 String Formatter；有 entry, exit 两个函数处理 Flow Tracing。（如果每个函数都要在进入和退出的时候调用这两个函数，是不是可以使用装饰器方法操作？）&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;logger&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;debug&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Logging in user {} with birthday {}&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;user&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;getName&lt;/span&gt;&lt;span class="o"&gt;(),&lt;/span&gt; &lt;span class="n"&gt;user&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;getBirthdayCalendar&lt;/span&gt;&lt;span class="o"&gt;());&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;API 2.x 中表示可以直接调用函数，不需要检查 log 等级是否开启，不知道 API 1.x 中是否可以这样使用。&lt;/p&gt;
+&lt;p&gt;如果是 Java 8，可以借助 Lambda 表达式完成 lazy-evaluation.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;logger&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;trace&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Some long-running operation returned {}&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;expensiveOperation&lt;/span&gt;&lt;span class="o"&gt;());&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;高级用法暂时不提。&lt;/p&gt;
+&lt;h2&gt;Configuration&lt;/h2&gt;
+&lt;p&gt;感觉 log4j 的配置十分复杂，和各种框架也有耦合（主要是框架使用了 log4j 作为日志输出）。&lt;/p&gt;
+&lt;p&gt;Log4j 推荐的配置方法是通过配置文件进行配置，如果无法定位到配置文件的话，则会使用默认配置 DefaultConfiguration class. 默认输出到控制台，只显示 ERROR 级别。&lt;/p&gt;
+&lt;p&gt;Log4j 支持多种配置格式和文件名，具体可以参考 &lt;a href="http://logging.apache.org/log4j/2.x/manual/configuration.html"&gt;Configuration&lt;/a&gt;。通常来说，在工程的配置目录中添加 &lt;code&gt;log4j2.properties&lt;/code&gt; 文件最为合适。&lt;/p&gt;
+&lt;p&gt;一个 XML 设置的结构通常如下：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot;?&amp;gt;&lt;/span&gt;;
+&lt;span class="nt"&gt;&amp;lt;Configuration&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;Properties&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;Property&lt;/span&gt; &lt;span class="na"&gt;name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;name1&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;value&lt;span class="nt"&gt;&amp;lt;/property&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;Property&lt;/span&gt; &lt;span class="na"&gt;name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;name2&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;value=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;value2&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;/&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;/Properties&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;filter&lt;/span&gt;  &lt;span class="err"&gt;...&lt;/span&gt; &lt;span class="nt"&gt;/&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;Appenders&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;appender&lt;/span&gt; &lt;span class="err"&gt;...&lt;/span&gt; &lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+      &lt;span class="nt"&gt;&amp;lt;filter&lt;/span&gt;  &lt;span class="err"&gt;...&lt;/span&gt; &lt;span class="nt"&gt;/&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;/appender&amp;gt;&lt;/span&gt;
+    ...
+  &lt;span class="nt"&gt;&amp;lt;/Appenders&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;Loggers&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;Logger&lt;/span&gt; &lt;span class="na"&gt;name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;name1&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+      &lt;span class="nt"&gt;&amp;lt;filter&lt;/span&gt;  &lt;span class="err"&gt;...&lt;/span&gt; &lt;span class="nt"&gt;/&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;/Logger&amp;gt;&lt;/span&gt;
+    ...
+    &lt;span class="nt"&gt;&amp;lt;Root&lt;/span&gt; &lt;span class="na"&gt;level=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;level&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+      &lt;span class="nt"&gt;&amp;lt;AppenderRef&lt;/span&gt; &lt;span class="na"&gt;ref=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;name&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;/&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;/Root&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;/Loggers&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/Configuration&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;\&amp;lt;Configuration&gt; 可以包含 status 属性，配置 log4j 内部的 log 级别，遇到问题是可以设置为 trace 来排查。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;最关键的是&lt;/strong&gt;要将 log 写入文件中，需要设置 Appender 的类型。我声明 Appender&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;Appender&lt;/span&gt; &lt;span class="na"&gt;type=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;File&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;运行时会出现 CLASS_NOT_FOUND 的异常。简单查询了一下，和 ClassLoader 有关，暂时没有研究；设置 Appender为&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;File&lt;/span&gt; &lt;span class="na"&gt;name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;File&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;fileName=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;${filename}&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;PatternLayout&lt;/span&gt; &lt;span class="na"&gt;pattern=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;/&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/File&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;成功将 log 写入文件中。&lt;/p&gt;
+&lt;h2&gt;RollingFile&lt;/h2&gt;
+&lt;p&gt;详细而复杂的 Appender 配置可以参考 &lt;a href="http://logging.apache.org/log4j/2.x/manual/appenders.html#RollingFileAppender"&gt;Appenders&lt;/a&gt;。这里简单记录一下如何配置 RollingFile，既设置条件自动归档旧记录的方法。&lt;/p&gt;
+&lt;p&gt;配置&lt;code&gt;RollingFileAppender&lt;/code&gt;需要设置&lt;code&gt;TriggeringPolicy&lt;/code&gt;和&lt;code&gt;RolloverStrategy&lt;/code&gt;两个属性，分别用来判断何时归档以及归档名称。&lt;/p&gt;
+&lt;p&gt;使用&lt;code&gt;Policies&lt;/code&gt;标签设置&lt;code&gt;CompositeTriggeringPolicy&lt;/code&gt;属性，内部可以包含多个&lt;code&gt;Policies&lt;/code&gt;，任意一个为真都会产生新文件并归档旧文件。&lt;/p&gt;
+&lt;p&gt;使用&lt;code&gt;DefaultRolloverStrategy&lt;/code&gt;配置命名策略，使用滑动窗口侧策略，有四个参数可以配置：fileIndex, min, max, compressionLevel。fileIndex可以设置为&lt;code&gt;min&lt;/code&gt;或者&lt;code&gt;max&lt;/code&gt;，表示新归档的日志的明明方向（最大 or 最小），max 为窗口大小，超过 max 后会自动删除最老的归档。同时，默认策略在&lt;code&gt;filePattern&lt;/code&gt;中同时接受时间和序号两个参数。一下是官网提供的一个样例：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot;?&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;Configuration&lt;/span&gt; &lt;span class="na"&gt;status=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;warn&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;MyApp&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;packages=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;Appenders&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;RollingFile&lt;/span&gt; &lt;span class="na"&gt;name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;RollingFile&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;fileName=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;logs/app.log&amp;quot;&lt;/span&gt;
+                 &lt;span class="na"&gt;filePattern=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;logs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+      &lt;span class="nt"&gt;&amp;lt;PatternLayout&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;Pattern&amp;gt;&lt;/span&gt;%d %p %c{1.} [%t] %m%n&lt;span class="nt"&gt;&amp;lt;/Pattern&amp;gt;&lt;/span&gt;
+      &lt;span class="nt"&gt;&amp;lt;/PatternLayout&amp;gt;&lt;/span&gt;
+      &lt;span class="nt"&gt;&amp;lt;Policies&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;TimeBasedTriggeringPolicy&lt;/span&gt; &lt;span class="nt"&gt;/&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;SizeBasedTriggeringPolicy&lt;/span&gt; &lt;span class="na"&gt;size=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;250 MB&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;/&amp;gt;&lt;/span&gt;
+      &lt;span class="nt"&gt;&amp;lt;/Policies&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;/RollingFile&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;/Appenders&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;Loggers&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;Root&lt;/span&gt; &lt;span class="na"&gt;level=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;error&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+      &lt;span class="nt"&gt;&amp;lt;AppenderRef&lt;/span&gt; &lt;span class="na"&gt;ref=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;RollingFile&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;/&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;/Root&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;/Loggers&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/Configuration&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;可以看出&lt;code&gt;%i&lt;/code&gt;和&lt;code&gt;%d&lt;/code&gt;分别代表了序号和时间，时间格式和Java常用的配置相同。这个配置默认会产生最多七个归档，但是代码中并没有7这个数字出现，猜测为默认配置。同时还会调用&lt;code&gt;gzip&lt;/code&gt;压缩，猜测是通过文件后缀名判断的压缩算法……&lt;/p&gt;
+&lt;p&gt;以上介绍了简单的 RollingFile 配制方法，已经足够简单实用，更加复杂的需求请参考&lt;a href="http://logging.apache.org/log4j/2.x/manual/appenders.html#RollingFileAppender"&gt;官档&lt;/a&gt;。&lt;/p&gt;
+&lt;h2&gt;Log4j 1.x &amp;amp; 2.x&lt;/h2&gt;
+&lt;p&gt;具体介绍请看 &lt;a href="http://logging.apache.org/log4j/2.x/manual/index.html"&gt;Introduction&lt;/a&gt;，我浏览了一下系统依赖库，发现已经存在 Log4j 1.x，并且在根目录中也有 log4j.property。为了绕过系统级的迁移问题，如果不能并存，最好暂时使用 1.x。&lt;/p&gt;</summary></entry><entry><title>[Memo][Env] Android 学习日记 Day 1</title><link href="http://pollow.github.io/memoenv-android-xue-xi-ri-ji-day-1.html" rel="alternate"></link><updated>2016-01-14T00:26:11+08:00</updated><author><name>XING Chang</name></author><id>tag:pollow.github.io,2016-01-14:memoenv-android-xue-xi-ri-ji-day-1.html</id><summary type="html">&lt;h2&gt;前言&lt;/h2&gt;
 &lt;p&gt;人生不如意，事十常八九。最嫌弃 Java 的我正在维护一套 legacy 的 Java Web 系统，还在为了帮人做论文而学习 Android 开发。&lt;/p&gt;
 &lt;p&gt;这种大型工具链最难学，知识细节十分琐碎，而且主要集中在工具的使用和针对性框架知识的积累，主要靠背。而且环境搭建更是难中之难……&lt;/p&gt;
 &lt;p&gt;把学习中的一些知识点记录积累一下，方便复习吧。&lt;/p&gt;
