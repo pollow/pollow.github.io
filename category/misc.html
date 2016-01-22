@@ -23,7 +23,7 @@
                 <article>
                     <h1 class="entry-title"><a href="http://pollow.github.io/log4j-xue-xi-yu-pei-zhi.html">Log4j 学习与配置</a></h1>
 <footer class="post-info">
-        <abbr class="published" title="2016-01-22T13:31:45+08:00">
+        <abbr class="published" title="2016-01-22T21:28:49+08:00">
                 Published: 五 22 一月 2016
         </abbr>
 
@@ -122,6 +122,36 @@
 
 <p>可以看出<code>%i</code>和<code>%d</code>分别代表了序号和时间，时间格式和Java常用的配置相同。这个配置默认会产生最多七个归档，但是代码中并没有7这个数字出现，猜测为默认配置。同时还会调用<code>gzip</code>压缩，猜测是通过文件后缀名判断的压缩算法……</p>
 <p>以上介绍了简单的 RollingFile 配制方法，已经足够简单实用，更加复杂的需求请参考<a href="http://logging.apache.org/log4j/2.x/manual/appenders.html#RollingFileAppender">官档</a>。</p>
+<h2>Logger</h2>
+<p>在<code>Loggers</code>标签中可以指定多个<code>Logger</code>记录器。其中<code>Root</code>标签必须存在（在 Properties 文件中，使用<code>rootLogger</code>），作为根记录器，匹配所有的 log 行为。其他的<code>Logger</code>标签可以通过<code>name</code>属性指定匹配的<code>Logger</code>名称，也就是<code>LogManager.getLogger(name)</code>中传入的名称，默认为类名。</p>
+<p>日志打印行为会匹配所有匹配的<code>Logger</code>标签，如果希望匹配后截断，可以指定<code>additivity</code>属性为false。</p>
+<p>一个样例：</p>
+<div class="highlight"><pre><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;Configuration</span> <span class="na">status=</span><span class="s">&quot;INFO&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;Properties&gt;</span>
+        <span class="nt">&lt;Property</span> <span class="na">name=</span><span class="s">&quot;filename&quot;</span><span class="nt">&gt;</span>target/test.log<span class="nt">&lt;/Property&gt;</span>
+    <span class="nt">&lt;/Properties&gt;</span>
+    <span class="nt">&lt;Appenders&gt;</span>
+        <span class="nt">&lt;Console</span> <span class="na">name=</span><span class="s">&quot;Console&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;PatternLayout</span> <span class="na">pattern=</span><span class="s">&quot;%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n&quot;</span><span class="nt">/&gt;</span>
+
+        <span class="nt">&lt;/Console&gt;</span>
+    <span class="nt">&lt;/Appenders&gt;</span>
+    <span class="nt">&lt;Loggers&gt;</span>
+        <span class="nt">&lt;Root</span> <span class="na">level=</span><span class="s">&quot;trace&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;AppenderRef</span> <span class="na">ref=</span><span class="s">&quot;Console&quot;</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;/Root&gt;</span>
+        <span class="nt">&lt;Logger</span> <span class="na">name=</span><span class="s">&quot;com.trendcom.tour.A&quot;</span> <span class="na">level=</span><span class="s">&quot;trace&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;AppenderRef</span> <span class="na">ref=</span><span class="s">&quot;Console&quot;</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;/Logger&gt;</span>
+        <span class="nt">&lt;Logger</span> <span class="na">name=</span><span class="s">&quot;com.trendcom.tour&quot;</span> <span class="na">level=</span><span class="s">&quot;trace&quot;</span> <span class="na">additivity=</span><span class="s">&quot;false&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;AppenderRef</span> <span class="na">ref=</span><span class="s">&quot;Console&quot;</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;/Logger&gt;</span>
+    <span class="nt">&lt;/Loggers&gt;</span>
+<span class="nt">&lt;/Configuration&gt;</span>
+</pre></div>
+
+
 <h2>Log4j 1.x &amp; 2.x</h2>
 <p>具体介绍请看 <a href="http://logging.apache.org/log4j/2.x/manual/index.html">Introduction</a>，我浏览了一下系统依赖库，发现已经存在 Log4j 1.x，并且在根目录中也有 log4j.property。为了绕过系统级的迁移问题，如果不能并存，最好暂时使用 1.x。</p>                </article>
             </aside><!-- /#featured -->
