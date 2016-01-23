@@ -21,9 +21,53 @@
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="http://pollow.github.io/log4j-xue-xi-yu-pei-zhi.html">Log4j 学习与配置</a></h1>
+                    <h1 class="entry-title"><a href="http://pollow.github.io/java-web-de-ce-shi.html">Java Web 的测试</a></h1>
 <footer class="post-info">
-        <abbr class="published" title="2016-01-22T21:28:49+08:00">
+        <abbr class="published" title="2016-01-23T23:21:36+08:00">
+                Published: 六 23 一月 2016
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="http://pollow.github.io/author/xing-chang.html">XING Chang</a>
+        </address>
+<p>In <a href="http://pollow.github.io/category/misc.html">misc</a>.</p>
+
+</footer><!-- /.post-info --><p>前几天研究了 Java Web 中如何利用 log4j 记录 log，方便追踪少见的错误和异常，更加优雅的拜托 stdout 来 debug。这几天主要要钻研一下如何在一个 Java Web 的大型系统中优雅的做测试，包括单元测试和集成测试。</p>
+<p>由于工程庞大，错综复杂，而且目前一直处于在线调试的状态，缺少各种基础设施，所以加入测试难度颇高，今天简单的搜索了一下，检索到了一些关键技术和工具，暂作记录，空下来后慢慢研究。</p>
+<ol>
+<li>JUnit 4 -- StrutsSpringJUnit4TestCase</li>
+<li><a href="http://watij.com/">Watji</a></li>
+<li>h2 in-memory database</li>
+<li>Mock Class</li>
+</ol>
+<p>感觉想要成功的为整套系统加入测试，对于很多 Java 的概念和框架还需要深入学习，目前看来，遇到 IoR 和 Bean 相关的概念时还是有些不明所以。</p>
+<p>想要进行单元测试，有几个问题需要解决</p>
+<ol>
+<li>如何模拟 Request 请求</li>
+<li>如何判断请求处理是否正常</li>
+<li>如何劫持 Hibernate 的数据库操作</li>
+</ol>
+<p>关于第一三两个问题，StackOverflow 上很多答案都提到了 Mock Class 的概念，似乎是利用了 IoR 区分了开发和部署环境下 Hibernate 的行为。为了更好的理解这些用法，还需要对 Spring Core 进行深入的研究。</p>
+<p>说白了 SSH 经典框架我现在就研究了 Struts2，还总被坑奇怪的地方坑。</p>
+<p>Watji 是一个通过模拟浏览器行为，加入断言库来进行测试的框架，优点在于可以测试页面在浏览器中的行为，可能还可以处理 JavaScript 页面的展示问题。问题在于，现在的系统大量使用了 iframe 的嵌套，但是我在 API 中没有看到对于 iframe 如何进行分析。</p>
+<p>其次还需要把整个工程的几个G代码全都拿来梳理/整理一遍，重新设计工程结构，方便本地开发、调试、测试和发布，这么看来，还应该学习一下 Gradle 的用法。</p>
+<p>简单的记录了一下这几天的学习，都是一些技术性上的问题，但是在处理 legacy code 的问题上，还需要学习一些哲学上和概念上的思路。买了本《重构》已经在路上了，任重而道远。</p>
+<p>总之，Java 最擅长创造名词……</p>                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="http://pollow.github.io/log4j-xue-xi-yu-pei-zhi.html" rel="bookmark"
+                           title="Permalink to Log4j 学习与配置">Log4j 学习与配置</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2016-01-22T22:30:32+08:00">
                 Published: 五 22 一月 2016
         </abbr>
 
@@ -32,133 +76,13 @@
         </address>
 <p>In <a href="http://pollow.github.io/category/misc.html">misc</a>.</p>
 
-</footer><!-- /.post-info --><p>开始的时候就被这个项目居然使用 System.out.println 调试大法震惊了一下，由于我也懒得在架构上动手脚，所以也就随大流将就一下。但是最近遇到几个问题，一是我写的一个方法逻辑太过复杂，有太多的数据库操作（其实应该避免，但是因为API不够丰富，逻辑又十分复杂暂时只能如此了）；二是有一些客户报告了一下我在本地无法复现，有很偶然才会发生的 bug，不得已，我决定使用一下 Logger，在相关的函数中记录一下关键值。</p>
+</footer><!-- /.post-info -->                <p>开始的时候就被这个项目居然使用 System.out.println 调试大法震惊了一下，由于我也懒得在架构上动手脚，所以也就随大流将就一下。但是最近遇到几个问题，一是我写的一个方法逻辑太过复杂，有太多的数据库操作（其实应该避免，但是因为API不够丰富，逻辑又十分复杂暂时只能如此了）；二是有一些客户报告了一下我在本地无法复现，有很偶然才会发生的 bug，不得已，我决定使用一下 Logger，在相关的函数中记录一下关键值。</p>
 <h2>基础使用</h2>
 <p>记录需要使用 Logger, Logger 应该是单例模型，在应用初始化的时候创建并且保留以后一直使用；不过 LogManager 会处理这些事情，只要提供合适的 Logger 名称，它会在内部管理所有的 Logger。Logger的名字推荐和使用的类名一致，这也是<code>LogManager.getLogger()</code>的默认行为。</p>
-<p>常用的又 INFO, DEBUG, WARN, ERROR 四个等级，对应四个函数；可以使用 printf 函数默认调用 String Formatter；有 entry, exit 两个函数处理 Flow Tracing。（如果每个函数都要在进入和退出的时候调用这两个函数，是不是可以使用装饰器方法操作？）</p>
-<div class="highlight"><pre><span class="n">logger</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s">&quot;Logging in user {} with birthday {}&quot;</span><span class="o">,</span> <span class="n">user</span><span class="o">.</span><span class="na">getName</span><span class="o">(),</span> <span class="n">user</span><span class="o">.</span><span class="na">getBirthdayCalendar</span><span class="o">());</span>
-</pre></div>
-
-
-<p>API 2.x 中表示可以直接调用函数，不需要检查 log 等级是否开启，不知道 API 1.x 中是否可以这样使用。</p>
-<p>如果是 Java 8，可以借助 Lambda 表达式完成 lazy-evaluation.</p>
-<div class="highlight"><pre><span class="n">logger</span><span class="o">.</span><span class="na">trace</span><span class="o">(</span><span class="s">&quot;Some long-running operation returned {}&quot;</span><span class="o">,</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="n">expensiveOperation</span><span class="o">());</span>
-</pre></div>
-
-
-<p>高级用法暂时不提。</p>
-<h2>Configuration</h2>
-<p>感觉 log4j 的配置十分复杂，和各种框架也有耦合（主要是框架使用了 log4j 作为日志输出）。</p>
-<p>Log4j 推荐的配置方法是通过配置文件进行配置，如果无法定位到配置文件的话，则会使用默认配置 DefaultConfiguration class. 默认输出到控制台，只显示 ERROR 级别。</p>
-<p>Log4j 支持多种配置格式和文件名，具体可以参考 <a href="http://logging.apache.org/log4j/2.x/manual/configuration.html">Configuration</a>。通常来说，在工程的配置目录中添加 <code>log4j2.properties</code> 文件最为合适。</p>
-<p>一个 XML 设置的结构通常如下：</p>
-<div class="highlight"><pre><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>;
-<span class="nt">&lt;Configuration&gt;</span>
-  <span class="nt">&lt;Properties&gt;</span>
-    <span class="nt">&lt;Property</span> <span class="na">name=</span><span class="s">&quot;name1&quot;</span><span class="nt">&gt;</span>value<span class="nt">&lt;/property&gt;</span>
-    <span class="nt">&lt;Property</span> <span class="na">name=</span><span class="s">&quot;name2&quot;</span> <span class="na">value=</span><span class="s">&quot;value2&quot;</span><span class="nt">/&gt;</span>
-  <span class="nt">&lt;/Properties&gt;</span>
-  <span class="nt">&lt;filter</span>  <span class="err">...</span> <span class="nt">/&gt;</span>
-  <span class="nt">&lt;Appenders&gt;</span>
-    <span class="nt">&lt;appender</span> <span class="err">...</span> <span class="nt">&gt;</span>
-      <span class="nt">&lt;filter</span>  <span class="err">...</span> <span class="nt">/&gt;</span>
-    <span class="nt">&lt;/appender&gt;</span>
-    ...
-  <span class="nt">&lt;/Appenders&gt;</span>
-  <span class="nt">&lt;Loggers&gt;</span>
-    <span class="nt">&lt;Logger</span> <span class="na">name=</span><span class="s">&quot;name1&quot;</span><span class="nt">&gt;</span>
-      <span class="nt">&lt;filter</span>  <span class="err">...</span> <span class="nt">/&gt;</span>
-    <span class="nt">&lt;/Logger&gt;</span>
-    ...
-    <span class="nt">&lt;Root</span> <span class="na">level=</span><span class="s">&quot;level&quot;</span><span class="nt">&gt;</span>
-      <span class="nt">&lt;AppenderRef</span> <span class="na">ref=</span><span class="s">&quot;name&quot;</span><span class="nt">/&gt;</span>
-    <span class="nt">&lt;/Root&gt;</span>
-  <span class="nt">&lt;/Loggers&gt;</span>
-<span class="nt">&lt;/Configuration&gt;</span>
-</pre></div>
-
-
-<p>\&lt;Configuration> 可以包含 status 属性，配置 log4j 内部的 log 级别，遇到问题是可以设置为 trace 来排查。</p>
-<p><strong>最关键的是</strong>要将 log 写入文件中，需要设置 Appender 的类型。我声明 Appender</p>
-<div class="highlight"><pre><span class="nt">&lt;Appender</span> <span class="na">type=</span><span class="s">&quot;File&quot;</span><span class="nt">&gt;</span>
-</pre></div>
-
-
-<p>运行时会出现 CLASS_NOT_FOUND 的异常。简单查询了一下，和 ClassLoader 有关，暂时没有研究；设置 Appender为</p>
-<div class="highlight"><pre><span class="nt">&lt;File</span> <span class="na">name=</span><span class="s">&quot;File&quot;</span> <span class="na">fileName=</span><span class="s">&quot;${filename}&quot;</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;PatternLayout</span> <span class="na">pattern=</span><span class="s">&quot;%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n&quot;</span><span class="nt">/&gt;</span>
-<span class="nt">&lt;/File&gt;</span>
-</pre></div>
-
-
-<p>成功将 log 写入文件中。</p>
-<h2>RollingFile</h2>
-<p>详细而复杂的 Appender 配置可以参考 <a href="http://logging.apache.org/log4j/2.x/manual/appenders.html#RollingFileAppender">Appenders</a>。这里简单记录一下如何配置 RollingFile，既设置条件自动归档旧记录的方法。</p>
-<p>配置<code>RollingFileAppender</code>需要设置<code>TriggeringPolicy</code>和<code>RolloverStrategy</code>两个属性，分别用来判断何时归档以及归档名称。</p>
-<p>使用<code>Policies</code>标签设置<code>CompositeTriggeringPolicy</code>属性，内部可以包含多个<code>Policies</code>，任意一个为真都会产生新文件并归档旧文件。</p>
-<p>使用<code>DefaultRolloverStrategy</code>配置命名策略，使用滑动窗口侧策略，有四个参数可以配置：fileIndex, min, max, compressionLevel。fileIndex可以设置为<code>min</code>或者<code>max</code>，表示新归档的日志的明明方向（最大 or 最小），max 为窗口大小，超过 max 后会自动删除最老的归档。同时，默认策略在<code>filePattern</code>中同时接受时间和序号两个参数。一下是官网提供的一个样例：</p>
-<div class="highlight"><pre><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
-<span class="nt">&lt;Configuration</span> <span class="na">status=</span><span class="s">&quot;warn&quot;</span> <span class="na">name=</span><span class="s">&quot;MyApp&quot;</span> <span class="na">packages=</span><span class="s">&quot;&quot;</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;Appenders&gt;</span>
-    <span class="nt">&lt;RollingFile</span> <span class="na">name=</span><span class="s">&quot;RollingFile&quot;</span> <span class="na">fileName=</span><span class="s">&quot;logs/app.log&quot;</span>
-                 <span class="na">filePattern=</span><span class="s">&quot;logs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz&quot;</span><span class="nt">&gt;</span>
-      <span class="nt">&lt;PatternLayout&gt;</span>
-        <span class="nt">&lt;Pattern&gt;</span>%d %p %c{1.} [%t] %m%n<span class="nt">&lt;/Pattern&gt;</span>
-      <span class="nt">&lt;/PatternLayout&gt;</span>
-      <span class="nt">&lt;Policies&gt;</span>
-        <span class="nt">&lt;TimeBasedTriggeringPolicy</span> <span class="nt">/&gt;</span>
-        <span class="nt">&lt;SizeBasedTriggeringPolicy</span> <span class="na">size=</span><span class="s">&quot;250 MB&quot;</span><span class="nt">/&gt;</span>
-      <span class="nt">&lt;/Policies&gt;</span>
-    <span class="nt">&lt;/RollingFile&gt;</span>
-  <span class="nt">&lt;/Appenders&gt;</span>
-  <span class="nt">&lt;Loggers&gt;</span>
-    <span class="nt">&lt;Root</span> <span class="na">level=</span><span class="s">&quot;error&quot;</span><span class="nt">&gt;</span>
-      <span class="nt">&lt;AppenderRef</span> <span class="na">ref=</span><span class="s">&quot;RollingFile&quot;</span><span class="nt">/&gt;</span>
-    <span class="nt">&lt;/Root&gt;</span>
-  <span class="nt">&lt;/Loggers&gt;</span>
-<span class="nt">&lt;/Configuration&gt;</span>
-</pre></div>
-
-
-<p>可以看出<code>%i</code>和<code>%d</code>分别代表了序号和时间，时间格式和Java常用的配置相同。这个配置默认会产生最多七个归档，但是代码中并没有7这个数字出现，猜测为默认配置。同时还会调用<code>gzip</code>压缩，猜测是通过文件后缀名判断的压缩算法……</p>
-<p>以上介绍了简单的 RollingFile 配制方法，已经足够简单实用，更加复杂的需求请参考<a href="http://logging.apache.org/log4j/2.x/manual/appenders.html#RollingFileAppender">官档</a>。</p>
-<h2>Logger</h2>
-<p>在<code>Loggers</code>标签中可以指定多个<code>Logger</code>记录器。其中<code>Root</code>标签必须存在（在 Properties 文件中，使用<code>rootLogger</code>），作为根记录器，匹配所有的 log 行为。其他的<code>Logger</code>标签可以通过<code>name</code>属性指定匹配的<code>Logger</code>名称，也就是<code>LogManager.getLogger(name)</code>中传入的名称，默认为类名。</p>
-<p>日志打印行为会匹配所有匹配的<code>Logger</code>标签，如果希望匹配后截断，可以指定<code>additivity</code>属性为false。</p>
-<p>一个样例：</p>
-<div class="highlight"><pre><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
-<span class="nt">&lt;Configuration</span> <span class="na">status=</span><span class="s">&quot;INFO&quot;</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;Properties&gt;</span>
-        <span class="nt">&lt;Property</span> <span class="na">name=</span><span class="s">&quot;filename&quot;</span><span class="nt">&gt;</span>target/test.log<span class="nt">&lt;/Property&gt;</span>
-    <span class="nt">&lt;/Properties&gt;</span>
-    <span class="nt">&lt;Appenders&gt;</span>
-        <span class="nt">&lt;Console</span> <span class="na">name=</span><span class="s">&quot;Console&quot;</span><span class="nt">&gt;</span>
-            <span class="nt">&lt;PatternLayout</span> <span class="na">pattern=</span><span class="s">&quot;%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n&quot;</span><span class="nt">/&gt;</span>
-
-        <span class="nt">&lt;/Console&gt;</span>
-    <span class="nt">&lt;/Appenders&gt;</span>
-    <span class="nt">&lt;Loggers&gt;</span>
-        <span class="nt">&lt;Root</span> <span class="na">level=</span><span class="s">&quot;trace&quot;</span><span class="nt">&gt;</span>
-            <span class="nt">&lt;AppenderRef</span> <span class="na">ref=</span><span class="s">&quot;Console&quot;</span><span class="nt">/&gt;</span>
-        <span class="nt">&lt;/Root&gt;</span>
-        <span class="nt">&lt;Logger</span> <span class="na">name=</span><span class="s">&quot;com.trendcom.tour.A&quot;</span> <span class="na">level=</span><span class="s">&quot;trace&quot;</span><span class="nt">&gt;</span>
-            <span class="nt">&lt;AppenderRef</span> <span class="na">ref=</span><span class="s">&quot;Console&quot;</span><span class="nt">/&gt;</span>
-        <span class="nt">&lt;/Logger&gt;</span>
-        <span class="nt">&lt;Logger</span> <span class="na">name=</span><span class="s">&quot;com.trendcom.tour&quot;</span> <span class="na">level=</span><span class="s">&quot;trace&quot;</span> <span class="na">additivity=</span><span class="s">&quot;false&quot;</span><span class="nt">&gt;</span>
-            <span class="nt">&lt;AppenderRef</span> <span class="na">ref=</span><span class="s">&quot;Console&quot;</span><span class="nt">/&gt;</span>
-        <span class="nt">&lt;/Logger&gt;</span>
-    <span class="nt">&lt;/Loggers&gt;</span>
-<span class="nt">&lt;/Configuration&gt;</span>
-</pre></div>
-
-
-<h2>Log4j 1.x &amp; 2.x</h2>
-<p>具体介绍请看 <a href="http://logging.apache.org/log4j/2.x/manual/index.html">Introduction</a>，我浏览了一下系统依赖库，发现已经存在 Log4j 1.x，并且在根目录中也有 log4j.property。为了绕过系统级的迁移问题，如果不能并存，最好暂时使用 1.x。</p>                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
+<p>常用的又 INFO, DEBUG, WARN, ERROR 四个等级，对应四个函数；可以使用 printf 函数默认调用 String ...</p>
+                <a class="readmore" href="http://pollow.github.io/log4j-xue-xi-yu-pei-zhi.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
 
             <li><article class="hentry">
                 <header>
