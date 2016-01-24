@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>pollow's blog</title><link href="http://pollow.github.io/" rel="alternate"></link><link href="http://pollow.github.io/feeds/android.atom.xml" rel="self"></link><id>http://pollow.github.io/</id><updated>2016-01-14T00:00:00+08:00</updated><entry><title>[Memo][Env] Android 学习日记 Day 1</title><link href="http://pollow.github.io/memoenv-android-xue-xi-ri-ji-day-1.html" rel="alternate"></link><updated>2016-01-14T00:00:00+08:00</updated><author><name>XING Chang</name></author><id>tag:pollow.github.io,2016-01-14:memoenv-android-xue-xi-ri-ji-day-1.html</id><summary type="html">&lt;h2&gt;前言&lt;/h2&gt;
+&lt;p&gt;人生不如意，事十常八九。最嫌弃 Java 的我正在维护一套 legacy 的 Java Web 系统，还在为了帮人做论文而学习 Android 开发。&lt;/p&gt;
+&lt;p&gt;这种大型工具链最难学，知识细节十分琐碎，而且主要集中在工具的使用和针对性框架知识的积累，主要靠背。而且环境搭建更是难中之难……&lt;/p&gt;
+&lt;p&gt;把学习中的一些知识点记录积累一下，方便复习吧。&lt;/p&gt;
+&lt;h2&gt;学习资料&lt;/h2&gt;
+&lt;p&gt;&lt;a href="http://developer.android.com/develop/index.html"&gt;Develop Apps&lt;/a&gt;
+&lt;a href="http://www.amazon.cn/%E7%AC%AC%E4%B8%80%E8%A1%8C%E4%BB%A3%E7%A0%81-Android-%E9%83%AD%E9%9C%96/dp/B00LVHTI9U/ref=pd_bxgy_14_img_2?ie=UTF8&amp;amp;refRID=0G5C7P8T3HFKK0APVNV5"&gt;《第一行代码-Android》&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;环境配置&lt;/h2&gt;
+&lt;p&gt;今天赶巧家里网不稳定，下载东西断断续续，花了一上午才把环境搭建起来。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;下载&amp;amp;安装 Android Studio，推荐使用最新稳定版。&lt;/li&gt;
+&lt;li&gt;OS X 需要单独下载 SDK Tools，放到指定目录。&lt;/li&gt;
+&lt;li&gt;随便建个工程，进入 AS 后打开 SDK Manager，下载如下项目：&lt;ol&gt;
+&lt;li&gt;Android SDK Tools&lt;/li&gt;
+&lt;li&gt;Android SDK Platform-tools&lt;/li&gt;
+&lt;li&gt;Android SDK Build-tools&lt;/li&gt;
+&lt;li&gt;SDK Platform&lt;/li&gt;
+&lt;li&gt;ARM EABI v7a System Image&lt;/li&gt;
+&lt;li&gt;Intel x86 Atom 64 System Image&lt;/li&gt;
+&lt;li&gt;Sources for Android SDK&lt;/li&gt;
+&lt;li&gt;Android Support Repo&lt;/li&gt;
+&lt;li&gt;Android Support Lib&lt;/li&gt;
+&lt;li&gt;Intel x86 Emulator Accelerator (HAXM Installer)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;在 SDK Manager 的 Settings 中可以设置国内源&lt;a href="www.androiddevtools.cn"&gt;AndroidDevTools&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;在 AS 中的 System Settings 中也可以设置代理，可以将本地的shadowsocks配置上去。&lt;/li&gt;
+&lt;li&gt;打开 AVD Manager，安装 HAXM&lt;/li&gt;
+&lt;li&gt;新建 Emulator，推荐使用x86镜像，据说速度快一些，有兼容性问题时再使用ARM版。&lt;/li&gt;
+&lt;li&gt;编译运行Hello World。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;第一天配置环境，感觉还有很多疑问没有解决，比如每个 Android 版本都有可用的 SDK ，是只需要安装最新的，还是所有要兼容的目标版本都需要呢？SDK 那里有很多项目都是每个 Android 版本都有一个，官网推荐下载最新的，那么如果需要开发针对低版本的 app，需不需要低版本的 SDK Tools 呢？编译的时候发生了些什么，这个 Gradle 构建的流程是什么？这么多的资源文件如何组织起来的？&lt;/p&gt;
+&lt;p&gt;希望进一步的学习可以解决这些疑问。&lt;/p&gt;</summary><category term="memo"></category><category term="env"></category><category term="android"></category></entry></feed>

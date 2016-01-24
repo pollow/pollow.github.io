@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>pollow's blog</title><link href="http://pollow.github.io/" rel="alternate"></link><link href="http://pollow.github.io/feeds/misc.atom.xml" rel="self"></link><id>http://pollow.github.io/</id><updated>2016-01-23T00:00:00+08:00</updated><entry><title>Java Web 的测试</title><link href="http://pollow.github.io/java-web-de-ce-shi.html" rel="alternate"></link><updated>2016-01-23T00:00:00+08:00</updated><author><name>XING Chang</name></author><id>tag:pollow.github.io,2016-01-23:java-web-de-ce-shi.html</id><summary type="html">&lt;p&gt;前几天研究了 Java Web 中如何利用 log4j 记录 log，方便追踪少见的错误和异常，更加优雅的拜托 stdout 来 debug。这几天主要要钻研一下如何在一个 Java Web 的大型系统中优雅的做测试，包括单元测试和集成测试。&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>pollow's blog</title><link href="http://pollow.github.io/" rel="alternate"></link><link href="http://pollow.github.io/feeds/java.atom.xml" rel="self"></link><id>http://pollow.github.io/</id><updated>2016-01-23T00:00:00+08:00</updated><entry><title>Java Web 的测试</title><link href="http://pollow.github.io/java-web-de-ce-shi.html" rel="alternate"></link><updated>2016-01-23T00:00:00+08:00</updated><author><name>XING Chang</name></author><id>tag:pollow.github.io,2016-01-23:java-web-de-ce-shi.html</id><summary type="html">&lt;p&gt;前几天研究了 Java Web 中如何利用 log4j 记录 log，方便追踪少见的错误和异常，更加优雅的拜托 stdout 来 debug。这几天主要要钻研一下如何在一个 Java Web 的大型系统中优雅的做测试，包括单元测试和集成测试。&lt;/p&gt;
 &lt;p&gt;由于工程庞大，错综复杂，而且目前一直处于在线调试的状态，缺少各种基础设施，所以加入测试难度颇高，今天简单的搜索了一下，检索到了一些关键技术和工具，暂作记录，空下来后慢慢研究。&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;JUnit 4 -- StrutsSpringJUnit4TestCase&lt;/li&gt;
@@ -140,71 +140,4 @@
 
 
 &lt;h2&gt;Log4j 1.x &amp;amp; 2.x&lt;/h2&gt;
-&lt;p&gt;具体介绍请看 &lt;a href="http://logging.apache.org/log4j/2.x/manual/index.html"&gt;Introduction&lt;/a&gt;，我浏览了一下系统依赖库，发现已经存在 Log4j 1.x，并且在根目录中也有 log4j.property。为了绕过系统级的迁移问题，如果不能并存，最好暂时使用 1.x。&lt;/p&gt;</summary><category term="Java"></category><category term="log4j"></category></entry><entry><title>[Memo][Env] Android 学习日记 Day 1</title><link href="http://pollow.github.io/memoenv-android-xue-xi-ri-ji-day-1.html" rel="alternate"></link><updated>2016-01-14T00:00:00+08:00</updated><author><name>XING Chang</name></author><id>tag:pollow.github.io,2016-01-14:memoenv-android-xue-xi-ri-ji-day-1.html</id><summary type="html">&lt;h2&gt;前言&lt;/h2&gt;
-&lt;p&gt;人生不如意，事十常八九。最嫌弃 Java 的我正在维护一套 legacy 的 Java Web 系统，还在为了帮人做论文而学习 Android 开发。&lt;/p&gt;
-&lt;p&gt;这种大型工具链最难学，知识细节十分琐碎，而且主要集中在工具的使用和针对性框架知识的积累，主要靠背。而且环境搭建更是难中之难……&lt;/p&gt;
-&lt;p&gt;把学习中的一些知识点记录积累一下，方便复习吧。&lt;/p&gt;
-&lt;h2&gt;学习资料&lt;/h2&gt;
-&lt;p&gt;&lt;a href="http://developer.android.com/develop/index.html"&gt;Develop Apps&lt;/a&gt;
-&lt;a href="http://www.amazon.cn/%E7%AC%AC%E4%B8%80%E8%A1%8C%E4%BB%A3%E7%A0%81-Android-%E9%83%AD%E9%9C%96/dp/B00LVHTI9U/ref=pd_bxgy_14_img_2?ie=UTF8&amp;amp;refRID=0G5C7P8T3HFKK0APVNV5"&gt;《第一行代码-Android》&lt;/a&gt;&lt;/p&gt;
-&lt;h2&gt;环境配置&lt;/h2&gt;
-&lt;p&gt;今天赶巧家里网不稳定，下载东西断断续续，花了一上午才把环境搭建起来。&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;下载&amp;amp;安装 Android Studio，推荐使用最新稳定版。&lt;/li&gt;
-&lt;li&gt;OS X 需要单独下载 SDK Tools，放到指定目录。&lt;/li&gt;
-&lt;li&gt;随便建个工程，进入 AS 后打开 SDK Manager，下载如下项目：&lt;ol&gt;
-&lt;li&gt;Android SDK Tools&lt;/li&gt;
-&lt;li&gt;Android SDK Platform-tools&lt;/li&gt;
-&lt;li&gt;Android SDK Build-tools&lt;/li&gt;
-&lt;li&gt;SDK Platform&lt;/li&gt;
-&lt;li&gt;ARM EABI v7a System Image&lt;/li&gt;
-&lt;li&gt;Intel x86 Atom 64 System Image&lt;/li&gt;
-&lt;li&gt;Sources for Android SDK&lt;/li&gt;
-&lt;li&gt;Android Support Repo&lt;/li&gt;
-&lt;li&gt;Android Support Lib&lt;/li&gt;
-&lt;li&gt;Intel x86 Emulator Accelerator (HAXM Installer)&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/li&gt;
-&lt;li&gt;在 SDK Manager 的 Settings 中可以设置国内源&lt;a href="www.androiddevtools.cn"&gt;AndroidDevTools&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;在 AS 中的 System Settings 中也可以设置代理，可以将本地的shadowsocks配置上去。&lt;/li&gt;
-&lt;li&gt;打开 AVD Manager，安装 HAXM&lt;/li&gt;
-&lt;li&gt;新建 Emulator，推荐使用x86镜像，据说速度快一些，有兼容性问题时再使用ARM版。&lt;/li&gt;
-&lt;li&gt;编译运行Hello World。&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;第一天配置环境，感觉还有很多疑问没有解决，比如每个 Android 版本都有可用的 SDK ，是只需要安装最新的，还是所有要兼容的目标版本都需要呢？SDK 那里有很多项目都是每个 Android 版本都有一个，官网推荐下载最新的，那么如果需要开发针对低版本的 app，需不需要低版本的 SDK Tools 呢？编译的时候发生了些什么，这个 Gradle 构建的流程是什么？这么多的资源文件如何组织起来的？&lt;/p&gt;
-&lt;p&gt;希望进一步的学习可以解决这些疑问。&lt;/p&gt;</summary><category term="memo"></category><category term="env"></category><category term="android"></category></entry><entry><title>[Brief Note] Git rebase 小结</title><link href="http://pollow.github.io/brief-note-git-rebase-xiao-jie.html" rel="alternate"></link><updated>2016-01-11T23:26:51+08:00</updated><author><name>XING Chang</name></author><id>tag:pollow.github.io,2016-01-11:brief-note-git-rebase-xiao-jie.html</id><summary type="html">&lt;h2&gt;Githug&lt;/h2&gt;
-&lt;p&gt;前几天再 Timeline 上看到有人推荐了一款叫做 Githug 的小游戏，通过解决任务学习 Git 的操作使用。由于感觉自己对于 Git 的使用一直停留在比较初级的阶段，有比较多的知识盲点，所以决定下载下来玩一玩，顺便把&lt;a href=""&gt;题解&lt;/a&gt;和学习笔记分别记录一下。&lt;/p&gt;
-&lt;h2&gt;Pro Git&lt;/h2&gt;
-&lt;p&gt;开始的内容比较简单也比较顺利，在 level 28 第一次遇到了问题——涉及到了rebase。这个功能虽然之前也有使用，但是对于概念一直有所困惑，正巧同时再 Startup News 上看到&lt;a href="http://git-scm.com/book/zh"&gt;《Pro Git 2ed》中文版&lt;/a&gt;翻译校对完成，就顺手上去看了一下有关章节，在这里简略记录一些内容。&lt;/p&gt;
-&lt;h2&gt;rebase&lt;/h2&gt;
-&lt;p&gt;推荐阅读：&lt;a href="http://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%8F%98%E5%9F%BA"&gt;3.6 Git 分支 - 变基&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;Git 的分支合并有 &lt;code&gt;merge&lt;/code&gt; 和 &lt;code&gt;rebase&lt;/code&gt; 两种操作。区别在于 merge 只简单的完成代码合并，而 rebase 则是提取两个不同分支（源分支与目标分支）的公共祖先作为基底，生成源分支的 patch 再应用到目标分支上，同时清理冗余的提交。&lt;/p&gt;
-&lt;p&gt;概念其实比较简单，只要注意应用到合适的场合，也就是清理冗余提交信息时，就比较合适，原文讲解的十分清晰。&lt;/p&gt;
-&lt;p&gt;有一点要注意的是，rebase 操作应当&lt;strong&gt;仅应用到本地仓库的提交记录整理&lt;/strong&gt;上，如果 rebase 了远程的提交和分支，则会导致所有参与开发的人得分支依赖变得一片混乱，&lt;strong&gt;『人民群众会仇恨你，你的朋友和家人也会嘲笑你，唾弃你』。&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;当然也有解决方案，当公共仓库的提交已经发生 rebase，也就是说本地分支依赖的提交可能已经被删除的时候，不要直接 &lt;code&gt;git pull&lt;/code&gt;，而是取到本地后执行 rebase 操作，或者直接：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;git pull --rebase
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;Git 的操作规范推荐每次&lt;code&gt;git fetch&lt;/code&gt;下来以后视情况决定 merge 和 pull 操作，而我实际上习惯每次直接执行&lt;code&gt;git pull&lt;/code&gt;操作。对于这种情况，有一个全局设定可以将&lt;code&gt;git pull&lt;/code&gt;操作默认执行&lt;code&gt;--rebase&lt;/code&gt;：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;git config --global pull.rebase true
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;h2&gt;merge or rebase&lt;/h2&gt;
-&lt;p&gt;今天还在阮一峰的博客上看到了&lt;a href="http://www.ruanyifeng.com/blog/2016/01/commit_message_change_log.html"&gt;《Commit message 和 Change log 编写指南》&lt;/a&gt;这篇文章，介绍了 commit 信息的编写规范，和利用 commit 信息直接生成 Change log 的技术和相应地工具。个人认为这种规范的制定十分合理，在大型系统维护时，追溯版本管理记录是检阅 bug 的最佳方式，而清晰明了富有意义的提交信息无疑提供了更丰富的线索。&lt;/p&gt;
-&lt;p&gt;但是本地分支开发时，通常要频繁的进行提交，确保工作记录可以追溯，方便测试和调试，产生的提交记录往往十分散乱并且意义不明，在开发时这些提交有积极地意义，但却是后期的维护时沉重的负担。所以我个人倾向于在分支合并时进行 rebase 操作，时提交信息简单易读又清晰明了。&lt;/p&gt;
-&lt;h2&gt;Solution for level 28&lt;/h2&gt;
-&lt;p&gt;Githug level 28 的任务提示如下：&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;Your local master branch has diverged from the remote origin/master branch. Rebase your commit onto origin/master and push it to remote.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;这就是最不应该发生的 &lt;strong&gt;rebase 了公共仓库提交&lt;/strong&gt;的情况，按照前文所述的&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;git pull --rebase
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;拉取数据，之后直接&lt;code&gt;git push&lt;/code&gt;即可。&lt;/p&gt;</summary><category term="brief"></category><category term="git"></category></entry><entry><title>Hello World</title><link href="http://pollow.github.io/hello-world.html" rel="alternate"></link><updated>2016-01-10T23:28:23+08:00</updated><author><name>XING Chang</name></author><id>tag:pollow.github.io,2016-01-10:hello-world.html</id><summary type="html">&lt;h2&gt;Hello World&lt;/h2&gt;
-&lt;p&gt;三年来第三次开通Blog，Wordpress 也配置过了，自己的博客系统也写过了，自己的静态博客引擎也写过了，然并卵，折腾的时间不少，文章才只写了三四篇。&lt;/p&gt;
-&lt;p&gt;简简单单最好了，这次试用一下 Pelican + Github.IO，不要在乎形式，希望可以坚持写下去，记录一下自己的学习历程吧。&lt;/p&gt;
-&lt;p&gt;Hello World, AGAIN.&lt;/p&gt;</summary></entry></feed>
+&lt;p&gt;具体介绍请看 &lt;a href="http://logging.apache.org/log4j/2.x/manual/index.html"&gt;Introduction&lt;/a&gt;，我浏览了一下系统依赖库，发现已经存在 Log4j 1.x，并且在根目录中也有 log4j.property。为了绕过系统级的迁移问题，如果不能并存，最好暂时使用 1.x。&lt;/p&gt;</summary><category term="Java"></category><category term="log4j"></category></entry></feed>
