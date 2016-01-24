@@ -1,25 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>pollow's blog</title><link href="http://pollow.github.io/" rel="alternate"></link><link href="http://pollow.github.io/feeds/misc.atom.xml" rel="self"></link><id>http://pollow.github.io/</id><updated>2016-01-23T23:22:17+08:00</updated><entry><title>Java Web 的测试</title><link href="http://pollow.github.io/java-web-de-ce-shi.html" rel="alternate"></link><updated>2016-01-23T23:22:17+08:00</updated><author><name>XING Chang</name></author><id>tag:pollow.github.io,2016-01-23:java-web-de-ce-shi.html</id><summary type="html">&lt;p&gt;前几天研究了 Java Web 中如何利用 log4j 记录 log，方便追踪少见的错误和异常，更加优雅的拜托 stdout 来 debug。这几天主要要钻研一下如何在一个 Java Web 的大型系统中优雅的做测试，包括单元测试和集成测试。&lt;/p&gt;
-&lt;p&gt;由于工程庞大，错综复杂，而且目前一直处于在线调试的状态，缺少各种基础设施，所以加入测试难度颇高，今天简单的搜索了一下，检索到了一些关键技术和工具，暂作记录，空下来后慢慢研究。&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;JUnit 4 -- StrutsSpringJUnit4TestCase&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://watij.com/"&gt;Watji&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;h2 in-memory database&lt;/li&gt;
-&lt;li&gt;Mock Class&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;感觉想要成功的为整套系统加入测试，对于很多 Java 的概念和框架还需要深入学习，目前看来，遇到 IoR 和 Bean 相关的概念时还是有些不明所以。&lt;/p&gt;
-&lt;p&gt;想要进行单元测试，有几个问题需要解决&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;如何模拟 Request 请求&lt;/li&gt;
-&lt;li&gt;如何判断请求处理是否正常&lt;/li&gt;
-&lt;li&gt;如何劫持 Hibernate 的数据库操作&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;关于第一三两个问题，StackOverflow 上很多答案都提到了 Mock Class 的概念，似乎是利用了 IoR 区分了开发和部署环境下 Hibernate 的行为。为了更好的理解这些用法，还需要对 Spring Core 进行深入的研究。&lt;/p&gt;
-&lt;p&gt;说白了 SSH 经典框架我现在就研究了 Struts2，还总被坑奇怪的地方坑。&lt;/p&gt;
-&lt;p&gt;Watji 是一个通过模拟浏览器行为，加入断言库来进行测试的框架，优点在于可以测试页面在浏览器中的行为，可能还可以处理 JavaScript 页面的展示问题。问题在于，现在的系统大量使用了 iframe 的嵌套，但是我在 API 中没有看到对于 iframe 如何进行分析。&lt;/p&gt;
-&lt;p&gt;其次还需要把整个工程的几个G代码全都拿来梳理/整理一遍，重新设计工程结构，方便本地开发、调试、测试和发布，这么看来，还应该学习一下 Gradle 的用法。&lt;/p&gt;
-&lt;p&gt;简单的记录了一下这几天的学习，都是一些技术性上的问题，但是在处理 legacy code 的问题上，还需要学习一些哲学上和概念上的思路。买了本《重构》已经在路上了，任重而道远。&lt;/p&gt;
-&lt;p&gt;总之，Java 最擅长创造名词……&lt;/p&gt;</summary></entry><entry><title>Log4j 学习与配置</title><link href="http://pollow.github.io/log4j-xue-xi-yu-pei-zhi.html" rel="alternate"></link><updated>2016-01-22T22:30:32+08:00</updated><author><name>XING Chang</name></author><id>tag:pollow.github.io,2016-01-22:log4j-xue-xi-yu-pei-zhi.html</id><summary type="html">&lt;p&gt;开始的时候就被这个项目居然使用 System.out.println 调试大法震惊了一下，由于我也懒得在架构上动手脚，所以也就随大流将就一下。但是最近遇到几个问题，一是我写的一个方法逻辑太过复杂，有太多的数据库操作（其实应该避免，但是因为API不够丰富，逻辑又十分复杂暂时只能如此了）；二是有一些客户报告了一下我在本地无法复现，有很偶然才会发生的 bug，不得已，我决定使用一下 Logger，在相关的函数中记录一下关键值。&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>pollow's blog</title><link href="http://pollow.github.io/" rel="alternate"></link><link href="http://pollow.github.io/feeds/misc.atom.xml" rel="self"></link><id>http://pollow.github.io/</id><updated>2016-01-24T22:31:59+08:00</updated><entry><title>Log4j 学习与配置</title><link href="http://pollow.github.io/log4j-xue-xi-yu-pei-zhi.html" rel="alternate"></link><updated>2016-01-24T22:31:59+08:00</updated><author><name>XING Chang</name></author><id>tag:pollow.github.io,2016-01-24:log4j-xue-xi-yu-pei-zhi.html</id><summary type="html">&lt;p&gt;开始的时候就被这个项目居然使用 System.out.println 调试大法震惊了一下，由于我也懒得在架构上动手脚，所以也就随大流将就一下。但是最近遇到几个问题，一是我写的一个方法逻辑太过复杂，有太多的数据库操作（其实应该避免，但是因为API不够丰富，逻辑又十分复杂暂时只能如此了）；二是有一些客户报告了一下我在本地无法复现，有很偶然才会发生的 bug，不得已，我决定使用一下 Logger，在相关的函数中记录一下关键值。&lt;/p&gt;
 &lt;h2&gt;基础使用&lt;/h2&gt;
 &lt;p&gt;记录需要使用 Logger, Logger 应该是单例模型，在应用初始化的时候创建并且保留以后一直使用；不过 LogManager 会处理这些事情，只要提供合适的 Logger 名称，它会在内部管理所有的 Logger。Logger的名字推荐和使用的类名一致，这也是&lt;code&gt;LogManager.getLogger()&lt;/code&gt;的默认行为。&lt;/p&gt;
 &lt;p&gt;常用的又 INFO, DEBUG, WARN, ERROR 四个等级，对应四个函数；可以使用 printf 函数默认调用 String Formatter；有 entry, exit 两个函数处理 Flow Tracing。（如果每个函数都要在进入和退出的时候调用这两个函数，是不是可以使用装饰器方法操作？）&lt;/p&gt;
@@ -140,7 +120,27 @@
 
 
 &lt;h2&gt;Log4j 1.x &amp;amp; 2.x&lt;/h2&gt;
-&lt;p&gt;具体介绍请看 &lt;a href="http://logging.apache.org/log4j/2.x/manual/index.html"&gt;Introduction&lt;/a&gt;，我浏览了一下系统依赖库，发现已经存在 Log4j 1.x，并且在根目录中也有 log4j.property。为了绕过系统级的迁移问题，如果不能并存，最好暂时使用 1.x。&lt;/p&gt;</summary></entry><entry><title>[Memo][Env] Android 学习日记 Day 1</title><link href="http://pollow.github.io/memoenv-android-xue-xi-ri-ji-day-1.html" rel="alternate"></link><updated>2016-01-14T00:26:11+08:00</updated><author><name>XING Chang</name></author><id>tag:pollow.github.io,2016-01-14:memoenv-android-xue-xi-ri-ji-day-1.html</id><summary type="html">&lt;h2&gt;前言&lt;/h2&gt;
+&lt;p&gt;具体介绍请看 &lt;a href="http://logging.apache.org/log4j/2.x/manual/index.html"&gt;Introduction&lt;/a&gt;，我浏览了一下系统依赖库，发现已经存在 Log4j 1.x，并且在根目录中也有 log4j.property。为了绕过系统级的迁移问题，如果不能并存，最好暂时使用 1.x。&lt;/p&gt;</summary><category term="Java"></category><category term="log4j"></category></entry><entry><title>Java Web 的测试</title><link href="http://pollow.github.io/java-web-de-ce-shi.html" rel="alternate"></link><updated>2016-01-24T22:31:41+08:00</updated><author><name>XING Chang</name></author><id>tag:pollow.github.io,2016-01-24:java-web-de-ce-shi.html</id><summary type="html">&lt;p&gt;前几天研究了 Java Web 中如何利用 log4j 记录 log，方便追踪少见的错误和异常，更加优雅的拜托 stdout 来 debug。这几天主要要钻研一下如何在一个 Java Web 的大型系统中优雅的做测试，包括单元测试和集成测试。&lt;/p&gt;
+&lt;p&gt;由于工程庞大，错综复杂，而且目前一直处于在线调试的状态，缺少各种基础设施，所以加入测试难度颇高，今天简单的搜索了一下，检索到了一些关键技术和工具，暂作记录，空下来后慢慢研究。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;JUnit 4 -- StrutsSpringJUnit4TestCase&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://watij.com/"&gt;Watji&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;h2 in-memory database&lt;/li&gt;
+&lt;li&gt;Mock Class&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;感觉想要成功的为整套系统加入测试，对于很多 Java 的概念和框架还需要深入学习，目前看来，遇到 IoR 和 Bean 相关的概念时还是有些不明所以。&lt;/p&gt;
+&lt;p&gt;想要进行单元测试，有几个问题需要解决&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;如何模拟 Request 请求&lt;/li&gt;
+&lt;li&gt;如何判断请求处理是否正常&lt;/li&gt;
+&lt;li&gt;如何劫持 Hibernate 的数据库操作&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;关于第一三两个问题，StackOverflow 上很多答案都提到了 Mock Class 的概念，似乎是利用了 IoR 区分了开发和部署环境下 Hibernate 的行为。为了更好的理解这些用法，还需要对 Spring Core 进行深入的研究。&lt;/p&gt;
+&lt;p&gt;说白了 SSH 经典框架我现在就研究了 Struts2，还总被坑奇怪的地方坑。&lt;/p&gt;
+&lt;p&gt;Watji 是一个通过模拟浏览器行为，加入断言库来进行测试的框架，优点在于可以测试页面在浏览器中的行为，可能还可以处理 JavaScript 页面的展示问题。问题在于，现在的系统大量使用了 iframe 的嵌套，但是我在 API 中没有看到对于 iframe 如何进行分析。&lt;/p&gt;
+&lt;p&gt;其次还需要把整个工程的几个G代码全都拿来梳理/整理一遍，重新设计工程结构，方便本地开发、调试、测试和发布，这么看来，还应该学习一下 Gradle 的用法。&lt;/p&gt;
+&lt;p&gt;简单的记录了一下这几天的学习，都是一些技术性上的问题，但是在处理 legacy code 的问题上，还需要学习一些哲学上和概念上的思路。买了本《重构》已经在路上了，任重而道远。&lt;/p&gt;
+&lt;p&gt;总之，Java 最擅长创造名词……&lt;/p&gt;</summary><category term="Java"></category><category term="JUnit"></category></entry><entry><title>[Memo][Env] Android 学习日记 Day 1</title><link href="http://pollow.github.io/memoenv-android-xue-xi-ri-ji-day-1.html" rel="alternate"></link><updated>2016-01-14T00:26:11+08:00</updated><author><name>XING Chang</name></author><id>tag:pollow.github.io,2016-01-14:memoenv-android-xue-xi-ri-ji-day-1.html</id><summary type="html">&lt;h2&gt;前言&lt;/h2&gt;
 &lt;p&gt;人生不如意，事十常八九。最嫌弃 Java 的我正在维护一套 legacy 的 Java Web 系统，还在为了帮人做论文而学习 Android 开发。&lt;/p&gt;
 &lt;p&gt;这种大型工具链最难学，知识细节十分琐碎，而且主要集中在工具的使用和针对性框架知识的积累，主要靠背。而且环境搭建更是难中之难……&lt;/p&gt;
 &lt;p&gt;把学习中的一些知识点记录积累一下，方便复习吧。&lt;/p&gt;
