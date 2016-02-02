@@ -27,3 +27,16 @@ Android Programming -- The Big Nerd Ranch Guide
 * Types and Programming Languages (Benjamin C. Pierce)
 * Elements of Programming Languages
 * 第一行代码 Android (郭霖 著)
+
+## Scheduled
+
+* Purely Functionaly Data Structures
+* How to Design Program 2ed
+* The Deisng of Design
+* Effective C++
+* More Effective C++
+* Effective STL
+* Effective Modern C++
+* Modern Operating Systems
+* Real World Haskell
+* Real World OCaml
