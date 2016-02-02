@@ -1,4 +1,4 @@
-title: [Memo][Env] Android 学习日记 Day 1
+title: Android 学习日记 Day 1
 tags: memo, env, android
 date: 2016-1-14
 

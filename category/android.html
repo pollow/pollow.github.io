@@ -30,7 +30,115 @@
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="http://pollow.github.io/memoenv-android-xue-xi-ri-ji-day-1.html">[Memo][Env] Android 学习日记 Day 1</a></h1>
+                    <h1 class="entry-title"><a href="http://pollow.github.io/android-xue-xi-ri-ji-activity.html">Android 学习日记 Activity</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2016-02-02T00:00:00+08:00">
+                Published: 二 02 二月 2016
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="http://pollow.github.io/author/xing-chang.html">XING Chang</a>
+        </address>
+<p>In <a href="http://pollow.github.io/category/android.html">Android</a>.</p>
+<p>tags: <a href="http://pollow.github.io/tag/memo.html">memo</a> <a href="http://pollow.github.io/tag/android.html">android</a> </p>
+</footer><!-- /.post-info --><p>文中出现的『书中』字样，均指代『《第一行代码》2014年第一版』。</p>
+<p>我最终使用的是 Android 5.0 SDK 23，运行的虚拟机却是 Android 6.0；暂时未出现明显兼容性问题。</p>
+<h2>Activity</h2>
+<p>一个 Activity（活动） 是 Android SDK 中 Activity 类的子类，负责呈现视图和数据，与用户进行交互。每一个活动需要一个对应的布局（layout）负责描述界面对象信息。</p>
+<p>创建一个活动首先需要在包中创建一个新类，继承 Activity 类，重载<code>onCreate</code>函数，并在<code>onCreate</code>函数中调用<code>setContentView</code>来为活动家在布局。索引布局可以使用<code>R.layout.layout_id</code>；R文件在gen文件夹中，是自动生成的一个包含了所有资源id的java文件。</p>
+<p>所有的活动都需要在<code>AndroidManifest.xml</code>中注册；在manifest标签中制定了package的话，可以省略Activity标签中class的包名。</p>
+<p>在<activity>标签中指定的label作为标题栏内容（如何去除标题栏还有一些疑问），如果是主活动的话，这个也会作为应用名称出现在 Launcher(drawer) 中。如果没有在<activity>标签中指定label的话并且需要label的话，则会使用上一级的<application>的label属性。</p>
+<p>一个<activity>标签中通常定义一些<intent-filter>标签，里面包含对于intent的定义（action &amp; category），这个用于指定启动条件，后文再详述。一个<strong>主活动</strong>就是包含了如下<intent-filter>的活动：</p>
+<div class="highlight"><pre><span class="nt">&lt;intent-filter&gt;</span>
+    <span class="nt">&lt;action</span> <span class="na">android:name=</span><span class="s">&quot;android.intent.action.MAIN&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;category</span> <span class="na">android:name=</span><span class="s">&quot;android.intent.category.LAUNCHER&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/intent-filter&gt;</span>
+</pre></div>
+
+
+<p>这个活动就是打开应用的第一个活动，如果没有指定主活动，则无法在 Launcher 中看到应用，<strong>如果指定多个活动</strong>，则在Launcher中会出现多个对应的程序图标，分别指向各自的活动。</p>
+<h3>隐藏标题栏</h3>
+<p>书中『隐藏标题栏』一章中的方法在 Android 5.0 SDK 中已经不可用。</p>
+<h3>Toast</h3>
+<p>Toast 就是在屏幕下方出现的半透明提醒框，一定时间后消失，没有其余的交互信息。推荐通过 Toast 将一些短小的消息通知给用户。</p>
+<p>使用时，通过调用 Toast 的静态方法<code>makeText</code>创建一个 Toast 对象，调用这个对象的<code>show</code>方法展示。<code>makeText</code>需要三个参数：</p>
+<ol>
+<li>Context</li>
+<li>文本内容（String）</li>
+<li>时长，通过两个常亮设定：<code>Toast.LENGTH_SHORT</code> &amp; <code>Toast.LENGTH_LONG</code></li>
+</ol>
+<h3>Menu</h3>
+<p>书中的创建 Menu 方法已不可用；我创建的虚拟机基于 Nexus 4，已经没有了实体按键，Android 6.0 的虚拟按键中也没有菜单键。</p>
+<h3>销毁活动</h3>
+<p>按下 Back 键即可销毁活动并且返回上一个活动；在函数中调用<code>finish</code>方法也可以销毁活动。<code>finish</code>方法定义在<code>Activity</code>类中。</p>
+<h2>Intent</h2>
+<p>当应用拥有多个活动时（通常情况），可以使用 Intent 进行切换，同时传递数据。</p>
+<p>Intent 是 Android 程序中在各个组件之间切换的重要方式，本节最后将简要归纳所有的 Intent 用法，不局限在 Activity 组件当中。</p>
+<h3>显式调用</h3>
+<div class="highlight"><pre><span class="n">Intent</span> <span class="n">intent</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Intent</span><span class="o">(</span><span class="n">FirstActivity</span><span class="o">.</span><span class="na">this</span><span class="o">,</span> <span class="n">SecondActivity</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+<span class="n">startActivityForResult</span><span class="o">(</span><span class="n">intent</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+</pre></div>
+
+
+<p>直接调用 Intent 的构造函数，传入 Context 和目标 Activity 的 Class（内部使用了RTTI么？）；之后调用<code>startActivity</code>启动新的活动；之所以将这种调用方式称为<strong>显式调用</strong>，是因为在构造函数中显式制定了目标活动，相对应的，隐式调用就没有指明目标活动。</p>
+<h3>隐式调用</h3>
+<div class="highlight"><pre><span class="n">Intent</span> <span class="n">intent</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Intent</span><span class="o">(</span><span class="s">&quot;me.aubee.activitytest.ACTION_START&quot;</span><span class="o">);</span>
+<span class="n">startActivity</span><span class="o">(</span><span class="n">intent</span><span class="o">);</span>
+</pre></div>
+
+
+<p>在调用 Intent 的构造函数的时候传入一个"action name"，再调用<code>startActivity</code>即可。如果没有指定category的话，默认使用<code>android.intent.category.DEFAULT</code>。这时会启动同时匹配action name和category name的Activity（在<intent-filter>标签中设置）。</p>
+<p>如果有多个活动被匹配到，则会弹出选择框，选择启动哪个活动。同时，这也是和其他应用协同工作的机制，通过设置指定的action name，可以启动其他同时绑定了这个action name的应用程序。这里有两个额外的概念：Uri和Scheme。</p>
+<p>Uri就是一个资源修饰符（Universal resource identifier），其中的协议部分即是scheme，比如http等。在<indent-filter>标签中可以使用<data>标签指定支持的scheme等五个属性。只有<data>标签指定的内容和Intent携带的Data完全一致的时候，才会启动活动。这里不一定要使用Uri，书上给的例子不太全面，具有一定的误导性，我在经过查询后得到以下的说明：</p>
+<ol>
+<li><code>Intent.ACTION_VIEW</code>是一个通用的做法，跨程序启动，或者说公用的接口都应该设置这个action_name</li>
+<li>匹配的是Data，可以通过任何方法生成Uri，比如<code>Uri.fromFile</code>可以获取文件的修饰符，我在下面给出一个来自StackOverflow的而关于启动pdf文件的例子。</li>
+</ol>
+<div class="highlight"><pre><span class="n">File</span> <span class="n">file</span> <span class="o">=</span> <span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="n">Environment</span><span class="o">.</span><span class="na">getExternalStorageDirectory</span><span class="o">().</span><span class="na">getAbsolutePath</span><span class="o">()</span> <span class="o">+</span><span class="s">&quot;/&quot;</span><span class="o">+</span> <span class="n">filename</span><span class="o">);</span>
+<span class="n">Intent</span> <span class="n">target</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Intent</span><span class="o">(</span><span class="n">Intent</span><span class="o">.</span><span class="na">ACTION_VIEW</span><span class="o">);</span>
+<span class="n">target</span><span class="o">.</span><span class="na">setDataAndType</span><span class="o">(</span><span class="n">Uri</span><span class="o">.</span><span class="na">fromFile</span><span class="o">(</span><span class="n">file</span><span class="o">),</span><span class="s">&quot;application/pdf&quot;</span><span class="o">);</span>
+<span class="n">target</span><span class="o">.</span><span class="na">setFlags</span><span class="o">(</span><span class="n">Intent</span><span class="o">.</span><span class="na">FLAG_ACTIVITY_NO_HISTORY</span><span class="o">);</span>
+
+<span class="n">Intent</span> <span class="n">intent</span> <span class="o">=</span> <span class="n">Intent</span><span class="o">.</span><span class="na">createChooser</span><span class="o">(</span><span class="n">target</span><span class="o">,</span> <span class="s">&quot;Open File&quot;</span><span class="o">);</span>
+<span class="k">try</span> <span class="o">{</span>
+    <span class="n">startActivity</span><span class="o">(</span><span class="n">intent</span><span class="o">);</span>
+<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">ActivityNotFoundException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">// Instruct the user to install a PDF reader here, or something</span>
+<span class="o">}</span>   
+</pre></div>
+
+
+<h3>传递数据</h3>
+<ol>
+<li>使用<code>putExtra(String key, Object value)</code>可以传递数据给下一个活动</li>
+<li>在下一个活动中使用<code>getIntent</code>获取Intent，<code>getExtra</code>获取数据</li>
+<li>首先在上一个活动需要调用<code>startActivityForResult</code>方法</li>
+<li>返回数据<strong>同样需要借助Intent</strong>，启动的活动需要<strong>用无参构造函数</strong>实例化一个Intent，设置数据后调用<code>setResult</code>方法</li>
+<li>上一个活动同时要重载<code>onActivityResult()</code>方法，这个方法会在目标活动结束后被毁掉</li>
+</ol>
+<h2>保存数据</h2>
+<p>活动在后台的时候可能随时被回收，但是回收前一定会调用<code>onSaveInstanceState()</code>方法，用来保存数据。保存的数据存在一个Bundel对象中，在onCreate被调用时作为参数传回。</p>
+<h2>生命周期和启动模式</h2>
+<p>这两部分书中讲解十分详细，不赘言。</p>
+<h2>Wait for Update</h2>
+<ol>
+<li>在AS中新建Activity默认继承的是<code>AppCompatActivity</code>，和<code>Activity</code>有什么区别？</li>
+<li>关于Menu的创建。</li>
+<li>关于标题栏的设置。</li>
+</ol>                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="http://pollow.github.io/android-xue-xi-ri-ji-day-1.html" rel="bookmark"
+                           title="Permalink to Android 学习日记 Day 1">Android 学习日记 Day 1</a></h1>
+                </header>
+
+                <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2016-01-14T00:00:00+08:00">
                 Published: 四 14 一月 2016
@@ -41,7 +149,7 @@
         </address>
 <p>In <a href="http://pollow.github.io/category/android.html">Android</a>.</p>
 <p>tags: <a href="http://pollow.github.io/tag/memo.html">memo</a> <a href="http://pollow.github.io/tag/env.html">env</a> <a href="http://pollow.github.io/tag/android.html">android</a> </p>
-</footer><!-- /.post-info --><h2>前言</h2>
+</footer><!-- /.post-info -->                <h2>前言</h2>
 <p>人生不如意，事十常八九。最嫌弃 Java 的我正在维护一套 legacy 的 Java Web 系统，还在为了帮人做论文而学习 Android 开发。</p>
 <p>这种大型工具链最难学，知识细节十分琐碎，而且主要集中在工具的使用和针对性框架知识的积累，主要靠背。而且环境搭建更是难中之难……</p>
 <p>把学习中的一些知识点记录积累一下，方便复习吧。</p>
@@ -54,27 +162,12 @@
 <li>下载&amp;安装 Android Studio，推荐使用最新稳定版。</li>
 <li>OS X 需要单独下载 SDK Tools，放到指定目录。</li>
 <li>随便建个工程，进入 AS 后打开 SDK Manager，下载如下项目：<ol>
-<li>Android SDK Tools</li>
-<li>Android SDK Platform-tools</li>
-<li>Android SDK Build-tools</li>
-<li>SDK Platform</li>
-<li>ARM EABI v7a System Image</li>
-<li>Intel x86 Atom 64 System Image</li>
-<li>Sources for Android SDK</li>
-<li>Android Support Repo</li>
-<li>Android Support Lib</li>
-<li>Intel x86 Emulator Accelerator (HAXM Installer)</li>
-</ol>
-</li>
-<li>在 SDK Manager 的 Settings 中可以设置国内源<a href="www.androiddevtools.cn">AndroidDevTools</a></li>
-<li>在 AS 中的 System Settings 中也可以设置代理，可以将本地的shadowsocks配置上去。</li>
-<li>打开 AVD Manager，安装 HAXM</li>
-<li>新建 Emulator，推荐使用x86镜像，据说速度快一些，有兼容性问题时再使用ARM版。</li>
-<li>编译运行Hello World。</li>
-</ol>
-<p>第一天配置环境，感觉还有很多疑问没有解决，比如每个 Android 版本都有可用的 SDK ，是只需要安装最新的，还是所有要兼容的目标版本都需要呢？SDK 那里有很多项目都是每个 Android 版本都有一个，官网推荐下载最新的，那么如果需要开发针对低版本的 app，需不需要低版本的 SDK Tools 呢？编译的时候发生了些什么，这个 Gradle 构建的流程是什么？这么多的资源文件如何组织起来的？</p>
-<p>希望进一步的学习可以解决这些疑问。</p>                </article>
-            </aside><!-- /#featured -->
+<li>Android SDK Tools ...</li></ol></li></ol>
+                <a class="readmore" href="http://pollow.github.io/android-xue-xi-ri-ji-day-1.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+                </ol><!-- /#posts-list -->
+                </section><!-- /#content -->
         <section id="extras" class="body">
                 <div class="blogroll">
                         <h2>blogroll</h2>

@@ -1,5 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>pollow's blog</title><link href="http://pollow.github.io/" rel="alternate"></link><link href="http://pollow.github.io/feeds/android.atom.xml" rel="self"></link><id>http://pollow.github.io/</id><updated>2016-01-14T00:00:00+08:00</updated><entry><title>[Memo][Env] Android 学习日记 Day 1</title><link href="http://pollow.github.io/memoenv-android-xue-xi-ri-ji-day-1.html" rel="alternate"></link><updated>2016-01-14T00:00:00+08:00</updated><author><name>XING Chang</name></author><id>tag:pollow.github.io,2016-01-14:memoenv-android-xue-xi-ri-ji-day-1.html</id><summary type="html">&lt;h2&gt;前言&lt;/h2&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>pollow's blog</title><link href="http://pollow.github.io/" rel="alternate"></link><link href="http://pollow.github.io/feeds/android.atom.xml" rel="self"></link><id>http://pollow.github.io/</id><updated>2016-02-02T00:00:00+08:00</updated><entry><title>Android 学习日记 Activity</title><link href="http://pollow.github.io/android-xue-xi-ri-ji-activity.html" rel="alternate"></link><updated>2016-02-02T00:00:00+08:00</updated><author><name>XING Chang</name></author><id>tag:pollow.github.io,2016-02-02:android-xue-xi-ri-ji-activity.html</id><summary type="html">&lt;p&gt;文中出现的『书中』字样，均指代『《第一行代码》2014年第一版』。&lt;/p&gt;
+&lt;p&gt;我最终使用的是 Android 5.0 SDK 23，运行的虚拟机却是 Android 6.0；暂时未出现明显兼容性问题。&lt;/p&gt;
+&lt;h2&gt;Activity&lt;/h2&gt;
+&lt;p&gt;一个 Activity（活动） 是 Android SDK 中 Activity 类的子类，负责呈现视图和数据，与用户进行交互。每一个活动需要一个对应的布局（layout）负责描述界面对象信息。&lt;/p&gt;
+&lt;p&gt;创建一个活动首先需要在包中创建一个新类，继承 Activity 类，重载&lt;code&gt;onCreate&lt;/code&gt;函数，并在&lt;code&gt;onCreate&lt;/code&gt;函数中调用&lt;code&gt;setContentView&lt;/code&gt;来为活动家在布局。索引布局可以使用&lt;code&gt;R.layout.layout_id&lt;/code&gt;；R文件在gen文件夹中，是自动生成的一个包含了所有资源id的java文件。&lt;/p&gt;
+&lt;p&gt;所有的活动都需要在&lt;code&gt;AndroidManifest.xml&lt;/code&gt;中注册；在manifest标签中制定了package的话，可以省略Activity标签中class的包名。&lt;/p&gt;
+&lt;p&gt;在&lt;activity&gt;标签中指定的label作为标题栏内容（如何去除标题栏还有一些疑问），如果是主活动的话，这个也会作为应用名称出现在 Launcher(drawer) 中。如果没有在&lt;activity&gt;标签中指定label的话并且需要label的话，则会使用上一级的&lt;application&gt;的label属性。&lt;/p&gt;
+&lt;p&gt;一个&lt;activity&gt;标签中通常定义一些&lt;intent-filter&gt;标签，里面包含对于intent的定义（action &amp;amp; category），这个用于指定启动条件，后文再详述。一个&lt;strong&gt;主活动&lt;/strong&gt;就是包含了如下&lt;intent-filter&gt;的活动：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;intent-filter&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;action&lt;/span&gt; &lt;span class="na"&gt;android:name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;android.intent.action.MAIN&amp;quot;&lt;/span&gt; &lt;span class="nt"&gt;/&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;category&lt;/span&gt; &lt;span class="na"&gt;android:name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;android.intent.category.LAUNCHER&amp;quot;&lt;/span&gt; &lt;span class="nt"&gt;/&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/intent-filter&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;这个活动就是打开应用的第一个活动，如果没有指定主活动，则无法在 Launcher 中看到应用，&lt;strong&gt;如果指定多个活动&lt;/strong&gt;，则在Launcher中会出现多个对应的程序图标，分别指向各自的活动。&lt;/p&gt;
+&lt;h3&gt;隐藏标题栏&lt;/h3&gt;
+&lt;p&gt;书中『隐藏标题栏』一章中的方法在 Android 5.0 SDK 中已经不可用。&lt;/p&gt;
+&lt;h3&gt;Toast&lt;/h3&gt;
+&lt;p&gt;Toast 就是在屏幕下方出现的半透明提醒框，一定时间后消失，没有其余的交互信息。推荐通过 Toast 将一些短小的消息通知给用户。&lt;/p&gt;
+&lt;p&gt;使用时，通过调用 Toast 的静态方法&lt;code&gt;makeText&lt;/code&gt;创建一个 Toast 对象，调用这个对象的&lt;code&gt;show&lt;/code&gt;方法展示。&lt;code&gt;makeText&lt;/code&gt;需要三个参数：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Context&lt;/li&gt;
+&lt;li&gt;文本内容（String）&lt;/li&gt;
+&lt;li&gt;时长，通过两个常亮设定：&lt;code&gt;Toast.LENGTH_SHORT&lt;/code&gt; &amp;amp; &lt;code&gt;Toast.LENGTH_LONG&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3&gt;Menu&lt;/h3&gt;
+&lt;p&gt;书中的创建 Menu 方法已不可用；我创建的虚拟机基于 Nexus 4，已经没有了实体按键，Android 6.0 的虚拟按键中也没有菜单键。&lt;/p&gt;
+&lt;h3&gt;销毁活动&lt;/h3&gt;
+&lt;p&gt;按下 Back 键即可销毁活动并且返回上一个活动；在函数中调用&lt;code&gt;finish&lt;/code&gt;方法也可以销毁活动。&lt;code&gt;finish&lt;/code&gt;方法定义在&lt;code&gt;Activity&lt;/code&gt;类中。&lt;/p&gt;
+&lt;h2&gt;Intent&lt;/h2&gt;
+&lt;p&gt;当应用拥有多个活动时（通常情况），可以使用 Intent 进行切换，同时传递数据。&lt;/p&gt;
+&lt;p&gt;Intent 是 Android 程序中在各个组件之间切换的重要方式，本节最后将简要归纳所有的 Intent 用法，不局限在 Activity 组件当中。&lt;/p&gt;
+&lt;h3&gt;显式调用&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;Intent&lt;/span&gt; &lt;span class="n"&gt;intent&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Intent&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;FirstActivity&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;this&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;SecondActivity&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;startActivityForResult&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;intent&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;直接调用 Intent 的构造函数，传入 Context 和目标 Activity 的 Class（内部使用了RTTI么？）；之后调用&lt;code&gt;startActivity&lt;/code&gt;启动新的活动；之所以将这种调用方式称为&lt;strong&gt;显式调用&lt;/strong&gt;，是因为在构造函数中显式制定了目标活动，相对应的，隐式调用就没有指明目标活动。&lt;/p&gt;
+&lt;h3&gt;隐式调用&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;Intent&lt;/span&gt; &lt;span class="n"&gt;intent&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Intent&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;me.aubee.activitytest.ACTION_START&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;startActivity&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;intent&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;在调用 Intent 的构造函数的时候传入一个"action name"，再调用&lt;code&gt;startActivity&lt;/code&gt;即可。如果没有指定category的话，默认使用&lt;code&gt;android.intent.category.DEFAULT&lt;/code&gt;。这时会启动同时匹配action name和category name的Activity（在&lt;intent-filter&gt;标签中设置）。&lt;/p&gt;
+&lt;p&gt;如果有多个活动被匹配到，则会弹出选择框，选择启动哪个活动。同时，这也是和其他应用协同工作的机制，通过设置指定的action name，可以启动其他同时绑定了这个action name的应用程序。这里有两个额外的概念：Uri和Scheme。&lt;/p&gt;
+&lt;p&gt;Uri就是一个资源修饰符（Universal resource identifier），其中的协议部分即是scheme，比如http等。在&lt;indent-filter&gt;标签中可以使用&lt;data&gt;标签指定支持的scheme等五个属性。只有&lt;data&gt;标签指定的内容和Intent携带的Data完全一致的时候，才会启动活动。这里不一定要使用Uri，书上给的例子不太全面，具有一定的误导性，我在经过查询后得到以下的说明：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;Intent.ACTION_VIEW&lt;/code&gt;是一个通用的做法，跨程序启动，或者说公用的接口都应该设置这个action_name&lt;/li&gt;
+&lt;li&gt;匹配的是Data，可以通过任何方法生成Uri，比如&lt;code&gt;Uri.fromFile&lt;/code&gt;可以获取文件的修饰符，我在下面给出一个来自StackOverflow的而关于启动pdf文件的例子。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;File&lt;/span&gt; &lt;span class="n"&gt;file&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;File&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Environment&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;getExternalStorageDirectory&lt;/span&gt;&lt;span class="o"&gt;().&lt;/span&gt;&lt;span class="na"&gt;getAbsolutePath&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;/&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;filename&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;Intent&lt;/span&gt; &lt;span class="n"&gt;target&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Intent&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Intent&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;ACTION_VIEW&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;target&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;setDataAndType&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Uri&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;fromFile&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;file&lt;/span&gt;&lt;span class="o"&gt;),&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;application/pdf&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;target&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;setFlags&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Intent&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;FLAG_ACTIVITY_NO_HISTORY&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+
+&lt;span class="n"&gt;Intent&lt;/span&gt; &lt;span class="n"&gt;intent&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Intent&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;createChooser&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;target&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Open File&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+&lt;span class="k"&gt;try&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;startActivity&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;intent&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt; &lt;span class="k"&gt;catch&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ActivityNotFoundException&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="c1"&gt;// Instruct the user to install a PDF reader here, or something&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;   
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;传递数据&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;使用&lt;code&gt;putExtra(String key, Object value)&lt;/code&gt;可以传递数据给下一个活动&lt;/li&gt;
+&lt;li&gt;在下一个活动中使用&lt;code&gt;getIntent&lt;/code&gt;获取Intent，&lt;code&gt;getExtra&lt;/code&gt;获取数据&lt;/li&gt;
+&lt;li&gt;首先在上一个活动需要调用&lt;code&gt;startActivityForResult&lt;/code&gt;方法&lt;/li&gt;
+&lt;li&gt;返回数据&lt;strong&gt;同样需要借助Intent&lt;/strong&gt;，启动的活动需要&lt;strong&gt;用无参构造函数&lt;/strong&gt;实例化一个Intent，设置数据后调用&lt;code&gt;setResult&lt;/code&gt;方法&lt;/li&gt;
+&lt;li&gt;上一个活动同时要重载&lt;code&gt;onActivityResult()&lt;/code&gt;方法，这个方法会在目标活动结束后被毁掉&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;保存数据&lt;/h2&gt;
+&lt;p&gt;活动在后台的时候可能随时被回收，但是回收前一定会调用&lt;code&gt;onSaveInstanceState()&lt;/code&gt;方法，用来保存数据。保存的数据存在一个Bundel对象中，在onCreate被调用时作为参数传回。&lt;/p&gt;
+&lt;h2&gt;生命周期和启动模式&lt;/h2&gt;
+&lt;p&gt;这两部分书中讲解十分详细，不赘言。&lt;/p&gt;
+&lt;h2&gt;Wait for Update&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;在AS中新建Activity默认继承的是&lt;code&gt;AppCompatActivity&lt;/code&gt;，和&lt;code&gt;Activity&lt;/code&gt;有什么区别？&lt;/li&gt;
+&lt;li&gt;关于Menu的创建。&lt;/li&gt;
+&lt;li&gt;关于标题栏的设置。&lt;/li&gt;
+&lt;/ol&gt;</summary><category term="memo"></category><category term="android"></category></entry><entry><title>Android 学习日记 Day 1</title><link href="http://pollow.github.io/android-xue-xi-ri-ji-day-1.html" rel="alternate"></link><updated>2016-01-14T00:00:00+08:00</updated><author><name>XING Chang</name></author><id>tag:pollow.github.io,2016-01-14:android-xue-xi-ri-ji-day-1.html</id><summary type="html">&lt;h2&gt;前言&lt;/h2&gt;
 &lt;p&gt;人生不如意，事十常八九。最嫌弃 Java 的我正在维护一套 legacy 的 Java Web 系统，还在为了帮人做论文而学习 Android 开发。&lt;/p&gt;
 &lt;p&gt;这种大型工具链最难学，知识细节十分琐碎，而且主要集中在工具的使用和针对性框架知识的积累，主要靠背。而且环境搭建更是难中之难……&lt;/p&gt;
 &lt;p&gt;把学习中的一些知识点记录积累一下，方便复习吧。&lt;/p&gt;

@@ -2,7 +2,7 @@
 <html lang="cn">
 <head>
         <meta charset="utf-8" />
-        <title>pollow's blog - android</title>
+        <title>Android 学习日记 Activity</title>
         <link rel="stylesheet" href="http://pollow.github.io/theme/css/main.css" />
         <link href="http://pollow.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="pollow's blog Atom Feed" />
 
@@ -21,16 +21,21 @@
                     <li><a href="/tags">Tags</a></li>
                     <li><a href="/archives">Archives</a></li>
                     <li><a href="http://pollow.github.io/pages/bookshelf.html">Bookshelf</a></li>
-                    <li><a href="http://pollow.github.io/category/android.html">Android</a></li>
+                    <li class="active"><a href="http://pollow.github.io/category/android.html">Android</a></li>
                     <li><a href="http://pollow.github.io/category/diary.html">Diary</a></li>
                     <li><a href="http://pollow.github.io/category/java.html">Java</a></li>
                     <li><a href="http://pollow.github.io/category/vcs.html">VCS</a></li>
                 </ul></nav>
         </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="http://pollow.github.io/android-xue-xi-ri-ji-activity.html" rel="bookmark"
+           title="Permalink to Android 学习日记 Activity">Android 学习日记 Activity</a></h1>
+    </header>
 
-            <aside id="featured" class="body">
-                <article>
-                    <h1 class="entry-title"><a href="http://pollow.github.io/android-xue-xi-ri-ji-activity.html">Android 学习日记 Activity</a></h1>
+    <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2016-02-02T00:00:00+08:00">
                 Published: 二 02 二月 2016
@@ -41,7 +46,7 @@
         </address>
 <p>In <a href="http://pollow.github.io/category/android.html">Android</a>.</p>
 <p>tags: <a href="http://pollow.github.io/tag/memo.html">memo</a> <a href="http://pollow.github.io/tag/android.html">android</a> </p>
-</footer><!-- /.post-info --><p>文中出现的『书中』字样，均指代『《第一行代码》2014年第一版』。</p>
+</footer><!-- /.post-info -->      <p>文中出现的『书中』字样，均指代『《第一行代码》2014年第一版』。</p>
 <p>我最终使用的是 Android 5.0 SDK 23，运行的虚拟机却是 Android 6.0；暂时未出现明显兼容性问题。</p>
 <h2>Activity</h2>
 <p>一个 Activity（活动） 是 Android SDK 中 Activity 类的子类，负责呈现视图和数据，与用户进行交互。每一个活动需要一个对应的布局（layout）负责描述界面对象信息。</p>
@@ -125,49 +130,11 @@
 <li>在AS中新建Activity默认继承的是<code>AppCompatActivity</code>，和<code>Activity</code>有什么区别？</li>
 <li>关于Menu的创建。</li>
 <li>关于标题栏的设置。</li>
-</ol>                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
+</ol>
+    </div><!-- /.entry-content -->
 
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="http://pollow.github.io/android-xue-xi-ri-ji-day-1.html" rel="bookmark"
-                           title="Permalink to Android 学习日记 Day 1">Android 学习日记 Day 1</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2016-01-14T00:00:00+08:00">
-                Published: 四 14 一月 2016
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="http://pollow.github.io/author/xing-chang.html">XING Chang</a>
-        </address>
-<p>In <a href="http://pollow.github.io/category/android.html">Android</a>.</p>
-<p>tags: <a href="http://pollow.github.io/tag/memo.html">memo</a> <a href="http://pollow.github.io/tag/env.html">env</a> <a href="http://pollow.github.io/tag/android.html">android</a> </p>
-</footer><!-- /.post-info -->                <h2>前言</h2>
-<p>人生不如意，事十常八九。最嫌弃 Java 的我正在维护一套 legacy 的 Java Web 系统，还在为了帮人做论文而学习 Android 开发。</p>
-<p>这种大型工具链最难学，知识细节十分琐碎，而且主要集中在工具的使用和针对性框架知识的积累，主要靠背。而且环境搭建更是难中之难……</p>
-<p>把学习中的一些知识点记录积累一下，方便复习吧。</p>
-<h2>学习资料</h2>
-<p><a href="http://developer.android.com/develop/index.html">Develop Apps</a>
-<a href="http://www.amazon.cn/%E7%AC%AC%E4%B8%80%E8%A1%8C%E4%BB%A3%E7%A0%81-Android-%E9%83%AD%E9%9C%96/dp/B00LVHTI9U/ref=pd_bxgy_14_img_2?ie=UTF8&amp;refRID=0G5C7P8T3HFKK0APVNV5">《第一行代码-Android》</a></p>
-<h2>环境配置</h2>
-<p>今天赶巧家里网不稳定，下载东西断断续续，花了一上午才把环境搭建起来。</p>
-<ol>
-<li>下载&amp;安装 Android Studio，推荐使用最新稳定版。</li>
-<li>OS X 需要单独下载 SDK Tools，放到指定目录。</li>
-<li>随便建个工程，进入 AS 后打开 SDK Manager，下载如下项目：<ol>
-<li>Android SDK Tools ...</li></ol></li></ol>
-                <a class="readmore" href="http://pollow.github.io/android-xue-xi-ri-ji-day-1.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-                </ol><!-- /#posts-list -->
-                </section><!-- /#content -->
+  </article>
+</section>
         <section id="extras" class="body">
                 <div class="blogroll">
                         <h2>blogroll</h2>
