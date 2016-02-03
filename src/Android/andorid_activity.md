@@ -43,7 +43,17 @@ Toast 就是在屏幕下方出现的半透明提醒框，一定时间后消失�
 
 ### Menu
 
-书中的创建 Menu 方法已不可用；我创建的虚拟机基于 Nexus 4，已经没有了实体按键，Android 6.0 的虚拟按键中也没有菜单键。
+<del>书中的创建 Menu 方法已不可用；我创建的虚拟机基于 Nexus 4，已经没有了实体按键，Android 6.0 的虚拟按键中也没有菜单键。</del>
+
+在Android 3.0后，Android设备不再要求提供实体Menu按钮，并且越来越多的现代设备已经不提供，比如我实验用的N4。在新的系统中，菜单被放置在了 app bar 的右侧。书中的实验前置步骤中去掉了标题栏，所以无法激活Menu，将app bar显示出来即可。
+
+MenuItem支持嵌套，在item中可以继续增加menu。新的标准也支持在XML中指定onClick回调，而不是重载。
+
+`onCreateOptionsMenu`应该仅仅新建一个初始的Menu，这个函数只会被调用一次，Menu保持不变。在3.0之后的系统中，如果希望基于用户的操作、活动属性、数据变化等动态的调整Menu的，可以动态的调用`invalidateOptionsMenu()`函数，系统会调用`onPrepareOptionsMenu(Menu)`，在其中可以动态的修改菜单条目。
+
+此外，还有一个可以绑定到(anchored to)的popup menu，比如一个button之类。
+
+进一步内容可以查阅官方指南 [Menu](http://developer.android.com/guide/topics/ui/menus.html) 和 [Menu Resource](http://developer.android.com/guide/topics/resources/menu-resource.html)。
 
 ### 销毁活动
 

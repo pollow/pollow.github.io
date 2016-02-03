@@ -26,7 +26,12 @@
 &lt;li&gt;时长，通过两个常亮设定：&lt;code&gt;Toast.LENGTH_SHORT&lt;/code&gt; &amp;amp; &lt;code&gt;Toast.LENGTH_LONG&lt;/code&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h3&gt;Menu&lt;/h3&gt;
-&lt;p&gt;书中的创建 Menu 方法已不可用；我创建的虚拟机基于 Nexus 4，已经没有了实体按键，Android 6.0 的虚拟按键中也没有菜单键。&lt;/p&gt;
+&lt;p&gt;&lt;del&gt;书中的创建 Menu 方法已不可用；我创建的虚拟机基于 Nexus 4，已经没有了实体按键，Android 6.0 的虚拟按键中也没有菜单键。&lt;/del&gt;&lt;/p&gt;
+&lt;p&gt;在Android 3.0后，Android设备不再要求提供实体Menu按钮，并且越来越多的现代设备已经不提供，比如我实验用的N4。在新的系统中，菜单被放置在了 app bar 的右侧。书中的实验前置步骤中去掉了标题栏，所以无法激活Menu，将app bar显示出来即可。&lt;/p&gt;
+&lt;p&gt;MenuItem支持嵌套，在item中可以继续增加menu。新的标准也支持在XML中指定onClick回调，而不是重载。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;onCreateOptionsMenu&lt;/code&gt;应该仅仅新建一个初始的Menu，这个函数只会被调用一次，Menu保持不变。在3.0之后的系统中，如果希望基于用户的操作、活动属性、数据变化等动态的调整Menu的，可以动态的调用&lt;code&gt;invalidateOptionsMenu()&lt;/code&gt;函数，系统会调用&lt;code&gt;onPrepareOptionsMenu(Menu)&lt;/code&gt;，在其中可以动态的修改菜单条目。&lt;/p&gt;
+&lt;p&gt;此外，还有一个可以绑定到(anchored to)的popup menu，比如一个button之类。&lt;/p&gt;
+&lt;p&gt;进一步内容可以查阅官方指南 &lt;a href="http://developer.android.com/guide/topics/ui/menus.html"&gt;Menu&lt;/a&gt; 和 &lt;a href="http://developer.android.com/guide/topics/resources/menu-resource.html"&gt;Menu Resource&lt;/a&gt;。&lt;/p&gt;
 &lt;h3&gt;销毁活动&lt;/h3&gt;
 &lt;p&gt;按下 Back 键即可销毁活动并且返回上一个活动；在函数中调用&lt;code&gt;finish&lt;/code&gt;方法也可以销毁活动。&lt;code&gt;finish&lt;/code&gt;方法定义在&lt;code&gt;Activity&lt;/code&gt;类中。&lt;/p&gt;
 &lt;h2&gt;Intent&lt;/h2&gt;
