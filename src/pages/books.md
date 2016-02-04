@@ -6,7 +6,6 @@ Title: Bookshelf
 
 * Java Web Service: Up and Running (Martin Kalin)
 * Effective Java 2ed (Joshua Bloch)
-* Spring MVC: A Tutorial (Paul Deck)
 
 ### Software Engineering
 
@@ -26,7 +25,8 @@ Android Programming -- The Big Nerd Ranch Guide
 * Structure and Interpretation of Computer Programs
 * Types and Programming Languages (Benjamin C. Pierce)
 * Elements of Programming Languages
-* 第一行代码 Android (郭霖 著)
+* 第一行代码 Android (郭霖 著) （2016-01-31)
+* Spring MVC: A Tutorial (Paul Deck) (2016-02-04)
 
 ## Scheduled
 
