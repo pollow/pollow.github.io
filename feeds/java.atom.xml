@@ -6,7 +6,7 @@
 &lt;p&gt;早起Hibernate使用XML配置POJO（我现在的工程中使用的方法），现在的Hibernate支持JPA（Java Persistence API），也可以使用注解的方法配置（今天在浏览 Spring 框架的时候，看到也有一个 Spring Data，之后也可稍作研究）。&lt;/p&gt;
 &lt;h2&gt;使用笔记&lt;/h2&gt;
 &lt;p&gt;创建一个类，推荐为POJO，使用&lt;code&gt;@Entity&lt;/code&gt;注解，使之为一个实体类，既与数据库有映射关系。实体类还需要在类声明处用&lt;code&gt;@Table&lt;/code&gt;注解表明，属性处用&lt;code&gt;@id&lt;/code&gt;定义主键，&lt;code&gt;@Column&lt;/code&gt;定义列；还有其他的一些外键和类型注解。&lt;/p&gt;
-&lt;p&gt;Hibernate 通常还需要一个工具类，官方提供了HibernateUtil，用于方便创建Session，Transaction等。&lt;code&gt;SessionFactory&lt;/code&gt;是一个线程安全的 Session 工厂类，&lt;/p&gt;
+&lt;p&gt;Hibernate 通常还需要一个工具类，官方提供了HibernateUtil，用于方便创建Session，Transaction等。&lt;code&gt;SessionFactory&lt;/code&gt;是一个线程安全的 Session 工厂类；得到Session后，每次执行请求，都需要打开Session，打开Transaction，执行请求，关闭Transaction，关闭Session。这种重复工作显然不合理。&lt;/p&gt;
 &lt;p&gt;在Web中使用 Hibernate，配置文件要设置&lt;code&gt;current_session_context_class&lt;/code&gt;为thread (for tomcat,不知为何)。&lt;/p&gt;
 &lt;p&gt;推荐为 Hibernate 设置乐观锁，在POJO中增加一列&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nd"&gt;@Version&lt;/span&gt;
@@ -15,6 +15,11 @@
 
 
 &lt;p&gt;问题是，会在数据库表中增加一列Version么？难道数据库的全部配置都要交给Hibernate，由Hibernate自动创建数据库么？一般来说，不都是DBA完成数据库的创建、调优，然后中间层只是方便CURD么？那么Hibernate如何利用View呢？&lt;/p&gt;
+&lt;h2&gt;外联关系&lt;/h2&gt;
+&lt;p&gt;Hibernate会自动处理复杂的外链关系，在声明POJO的时候需要配合注解使用。在配置文件中可以设置，取数据时是否连带外键一同获取，并且设置深度。cascade属性可以配置是否保存对象的同时保存外键。&lt;/p&gt;
+&lt;p&gt;查询外键的时候有延时加载和即时加载两种模式，推荐使用延迟加载（默认选项），获取更好的性能，但是也要考虑可能的异常（数据库连接断掉）。&lt;/p&gt;
+&lt;h2&gt;HQL&lt;/h2&gt;
+&lt;p&gt;HQL相对于SQL，只是针对面向对象的设计做了小修改。&lt;/p&gt;
 &lt;h2&gt;Questions&lt;/h2&gt;
 &lt;p&gt;&lt;code&gt;@GeneratedValue&lt;/code&gt;是否会和数据库默认的auto increment 冲突？&lt;/p&gt;</summary></entry><entry><title>ZML Reading Note</title><link href="http://pollow.github.io/zml-reading-note.html" rel="alternate"></link><updated>2016-02-03T00:00:00+08:00</updated><author><name>XING Chang</name></author><id>tag:pollow.github.io,2016-02-03:zml-reading-note.html</id><summary type="html"></summary></entry><entry><title>Java Web 的测试</title><link href="http://pollow.github.io/java-web-de-ce-shi.html" rel="alternate"></link><updated>2016-01-23T00:00:00+08:00</updated><author><name>XING Chang</name></author><id>tag:pollow.github.io,2016-01-23:java-web-de-ce-shi.html</id><summary type="html">&lt;p&gt;前几天研究了 Java Web 中如何利用 log4j 记录 log，方便追踪少见的错误和异常，更加优雅的拜托 stdout 来 debug。这几天主要要钻研一下如何在一个 Java Web 的大型系统中优雅的做测试，包括单元测试和集成测试。&lt;/p&gt;
 &lt;p&gt;由于工程庞大，错综复杂，而且目前一直处于在线调试的状态，缺少各种基础设施，所以加入测试难度颇高，今天简单的搜索了一下，检索到了一些关键技术和工具，暂作记录，空下来后慢慢研究。&lt;/p&gt;

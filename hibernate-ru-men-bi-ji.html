@@ -53,7 +53,7 @@
 <p>早起Hibernate使用XML配置POJO（我现在的工程中使用的方法），现在的Hibernate支持JPA（Java Persistence API），也可以使用注解的方法配置（今天在浏览 Spring 框架的时候，看到也有一个 Spring Data，之后也可稍作研究）。</p>
 <h2>使用笔记</h2>
 <p>创建一个类，推荐为POJO，使用<code>@Entity</code>注解，使之为一个实体类，既与数据库有映射关系。实体类还需要在类声明处用<code>@Table</code>注解表明，属性处用<code>@id</code>定义主键，<code>@Column</code>定义列；还有其他的一些外键和类型注解。</p>
-<p>Hibernate 通常还需要一个工具类，官方提供了HibernateUtil，用于方便创建Session，Transaction等。<code>SessionFactory</code>是一个线程安全的 Session 工厂类，</p>
+<p>Hibernate 通常还需要一个工具类，官方提供了HibernateUtil，用于方便创建Session，Transaction等。<code>SessionFactory</code>是一个线程安全的 Session 工厂类；得到Session后，每次执行请求，都需要打开Session，打开Transaction，执行请求，关闭Transaction，关闭Session。这种重复工作显然不合理。</p>
 <p>在Web中使用 Hibernate，配置文件要设置<code>current_session_context_class</code>为thread (for tomcat,不知为何)。</p>
 <p>推荐为 Hibernate 设置乐观锁，在POJO中增加一列</p>
 <div class="highlight"><pre><span class="nd">@Version</span>
@@ -62,6 +62,11 @@
 
 
 <p>问题是，会在数据库表中增加一列Version么？难道数据库的全部配置都要交给Hibernate，由Hibernate自动创建数据库么？一般来说，不都是DBA完成数据库的创建、调优，然后中间层只是方便CURD么？那么Hibernate如何利用View呢？</p>
+<h2>外联关系</h2>
+<p>Hibernate会自动处理复杂的外链关系，在声明POJO的时候需要配合注解使用。在配置文件中可以设置，取数据时是否连带外键一同获取，并且设置深度。cascade属性可以配置是否保存对象的同时保存外键。</p>
+<p>查询外键的时候有延时加载和即时加载两种模式，推荐使用延迟加载（默认选项），获取更好的性能，但是也要考虑可能的异常（数据库连接断掉）。</p>
+<h2>HQL</h2>
+<p>HQL相对于SQL，只是针对面向对象的设计做了小修改。</p>
 <h2>Questions</h2>
 <p><code>@GeneratedValue</code>是否会和数据库默认的auto increment 冲突？</p>
     </div><!-- /.entry-content -->
