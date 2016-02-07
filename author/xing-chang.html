@@ -61,7 +61,23 @@
 <p>Hibernate会自动处理复杂的外链关系，在声明POJO的时候需要配合注解使用。在配置文件中可以设置，取数据时是否连带外键一同获取，并且设置深度。cascade属性可以配置是否保存对象的同时保存外键。</p>
 <p>查询外键的时候有延时加载和即时加载两种模式，推荐使用延迟加载（默认选项），获取更好的性能，但是也要考虑可能的异常（数据库连接断掉）。</p>
 <h2>HQL</h2>
-<p>HQL相对于SQL，只是针对面向对象的设计做了小修改。</p>
+<p>HQL相对于SQL，只是针对面向对象的设计做了小修改。需要有如下注意点：</p>
+<ol>
+<li>在设计类名、包名时，大小写敏感</li>
+<li>可以使用<code>select class</code>的方法获取对象，这种情况下也可以省略select语句。</li>
+<li>如果查询的不是整个对象，而是一些字段，可以选择返回<code>Object[]</code>, <code>List</code>, <code>Map</code>，语法细节查询文档。</li>
+<li>where字句允许通过.(dot)进行简单的外键访问，允许对集合类型调用size函数。</li>
+<li>推荐使用名称占位符<code>:name</code>写入数据，调用<code>setParamter</code>系列函数传入数据（不知道是否会转义）。</li>
+<li>分页可以调用Query对象的<code>setFirstResult</code>和<code>setMaxResults</code>函数。</li>
+<li>也支持各种join查询。</li>
+<li>用<code>SQLQuery</code>可以使用SQL进行查询，通过设置<code>addEntity</code>可以配置返回实体。</li>
+<li>常用的简单查询可以使用<code>@NamedQuery</code>配置。  </li>
+</ol>
+<h2>Spring DAO模块</h2>
+<p>如上所述，进行查询的时候通常需要一系列打开，关闭的琐碎操作，DAO层封装了这些操作。</p>
+<h2>Spring Service模块</h2>
+<h2>jOOQ</h2>
+<h2>torpedoquery</h2>
 <h2>Questions</h2>
 <p><code>@GeneratedValue</code>是否会和数据库默认的auto increment 冲突？</p>                </article>
             </aside><!-- /#featured -->

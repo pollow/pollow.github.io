@@ -36,7 +36,27 @@ Hibernate会自动处理复杂的外链关系，在声明POJO的时候需要配�
 
 ## HQL
 
-HQL相对于SQL，只是针对面向对象的设计做了小修改。
+HQL相对于SQL，只是针对面向对象的设计做了小修改。需要有如下注意点：
+
+1. 在设计类名、包名时，大小写敏感
+2. 可以使用`select class`的方法获取对象，这种情况下也可以省略select语句。
+3. 如果查询的不是整个对象，而是一些字段，可以选择返回`Object[]`, `List`, `Map`，语法细节查询文档。
+4. where字句允许通过.(dot)进行简单的外键访问，允许对集合类型调用size函数。
+5. 推荐使用名称占位符`:name`写入数据，调用`setParamter`系列函数传入数据（不知道是否会转义）。
+6. 分页可以调用Query对象的`setFirstResult`和`setMaxResults`函数。
+7. 也支持各种join查询。
+8. 用`SQLQuery`可以使用SQL进行查询，通过设置`addEntity`可以配置返回实体。
+9. 常用的简单查询可以使用`@NamedQuery`配置。	
+
+## Spring DAO模块
+
+如上所述，进行查询的时候通常需要一系列打开，关闭的琐碎操作，DAO层封装了这些操作。
+
+## Spring Service模块
+
+## jOOQ
+
+## torpedoquery
 
 ## Questions
 
