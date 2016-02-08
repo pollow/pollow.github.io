@@ -16,8 +16,6 @@ Title: Bookshelf
 ### PLT
 
 * Language Implementation Patterns (Terence Parr)
-* Elements of Programming
-* The Design of Design
 
 ### Android
 
@@ -43,3 +41,5 @@ Android Programming -- The Big Nerd Ranch Guide
 * Modern Operating Systems
 * Real World Haskell
 * Real World OCaml
+* Elements of Programming
+
