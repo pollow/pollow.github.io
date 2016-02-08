@@ -15,6 +15,8 @@ Title: Bookshelf
 ### PLT
 
 * Language Implementation Patterns (Terence Parr)
+* Elements of Programming
+* The Design of Design
 
 ### Android
 
