@@ -6,6 +6,7 @@ Title: Bookshelf
 
 * Java Web Service: Up and Running (Martin Kalin)
 * Effective Java 2ed (Joshua Bloch)
+* Gradle in Action
 
 ### Software Engineering
 
