@@ -30,7 +30,81 @@
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="http://pollow.github.io/hibernate-ru-men-bi-ji.html">Hibernate 入门笔记</a></h1>
+                    <h1 class="entry-title"><a href="http://pollow.github.io/gradle-in-action-yue-du-bi-ji.html">Gradle in Action 阅读笔记</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2016-02-09T00:00:00+08:00">
+                Published: 二 09 二月 2016
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="http://pollow.github.io/author/xing-chang.html">XING Chang</a>
+        </address>
+<p>In <a href="http://pollow.github.io/category/java.html">Java</a>.</p>
+
+</footer><!-- /.post-info --><p>最近发现各种技术书籍真是啰里啰嗦絮絮叨叨，就不能平铺直叙说清楚事情么……</p>
+<h2>简洁</h2>
+<p>Gradle的优点在于其保留了Ant、Maven的可扩展性，一定程度的向上兼容，方便历史项目缓慢的向Gradle迁移的同时，还提供更加简洁语法和底层的api，并且使用了Ivy和Maven的包仓库。<strong>这种借用流行的当前项目资源，提供向上兼容的同时提供更加优良的特性的开源项目开发方法，值得借鉴</strong>。和Maven一样，Gradle不是简单的Make程序或者npm的包管理器，而是一整套的构建工具(building tools)，当然，对于个人小项目，使用它的主要目的也仅仅是make好依赖管理以及自动测试，对于团队来说，更好的分离了测试环境和产品部署，简化了持续交付。</p>
+<h2>入门</h2>
+<h3>构建</h3>
+<p>Java项目的构建和部署本身十分繁杂，而且大多数情况下都仅仅使用默认配置(convention)。Gradle将这些convention总结起来，利用其插件机制作为了一个Java项目插件，只要在构建脚本（默认为<code>build.gradle</code>，也可以在命令行中通过参数指定脚本）中使用此插件，即可包含所有的默认配置。所以，写一个简单的项目，并且在根目录新建包含如下内容的<code>build.gradle</code>脚本：</p>
+<div class="highlight"><pre>apply plugin: &#39;java&#39;
+</pre></div>
+
+
+<p>在命令行中使用<code>gradle build</code>命令即可完成构建。</p>
+<p>显然，默认配置不能满足每个人自己的项目需求，我们需要自定义。只要在脚本后面加上属性值，即可覆盖默认设置：</p>
+<div class="highlight"><pre>apply plugin: &#39;java&#39;
+version = 0.1
+sourceCompatibility = 1.8
+
+jar {
+    manifest {
+        attributes &#39;Main-Class&#39;: &#39;me.aubee.todo.ToDoApp&#39;
+    }
+}
+</pre></div>
+
+
+<p>这个脚本设置了当前应用的版本号（体现在jar包上），兼容的JRE环境，以及Manifest文件的启动路径（要打包成可执行的jar包(standalone)，还可以使用<code>application plugin</code>，参见<a href="https://docs.gradle.org/current/userguide/application_plugin.html">这个链接</a>）。</p>
+<p>所有可用的属性（properties）可以通过命令行<code>gradle properties</code>查看。</p>
+<h3>依赖</h3>
+<p>由于之前最流行的依赖管理工具是Maven，所有Gradle支持使用Maven的软件仓库：</p>
+<div class="highlight"><pre>repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile group: &#39;org.apache.commons&#39;, name: &#39;commons-lang3&#39;, version: &#39;3.1&#39;
+}   
+</pre></div>
+
+
+<p>group, name, version 分别对应了Maven的groupId, artifactId和version。如上的依赖也可以写成简写</p>
+<div class="highlight"><pre>dependencies {
+    compile &#39;org.apache.commons:commons-lang3:3.1&#39;
+}   
+</pre></div>
+
+
+<p>这样，build的时候就会自动从Maven仓库中下载对应的jar包。</p>
+<h3>Web Application</h3>
+<p>使用<code>war plugin</code>，默认需要将web resource放置到<code>src/main/webapp</code>中，构建中会多出war环节。所有的webapp目录下的文件会被拷贝到WAR file的根下，编译的classes文件放置在<code>WEB-INF/classes</code>下，所有的依赖放置在<code>WEB-INF/lib</code>中，成为一个符合Java EE标准的war file，link到tomcat中即可使用。</p>
+<p>还可以使用<code>jetty plugin</code>，利用Gradle内嵌的一个jetty服务器运行webapp，但是由于过于legacy，暂时不作考虑。在构建的时候加一个soft link到tomcat的目录即可。</p>
+<h3>Gradle Wrapper</h3>
+<p>这是一个用来消除多人合作时，由于跨平台和不同版本Gradle引起的不兼容型问题的脚本工具。使用很简单，暂时也不需要，不多讨论。</p>                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="http://pollow.github.io/hibernate-ru-men-bi-ji.html" rel="bookmark"
+                           title="Permalink to Hibernate 入门笔记">Hibernate 入门笔记</a></h1>
+                </header>
+
+                <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2016-02-05T00:00:00+08:00">
                 Published: 五 05 二月 2016
@@ -41,50 +115,16 @@
         </address>
 <p>In <a href="http://pollow.github.io/category/java.html">Java</a>.</p>
 
-</footer><!-- /.post-info --><p>Java 项目库看多了，尤其是Apache的，换上了严重的文档阅读恐惧症，严重倾向于阅读经过加工后的中文教材，然后去看reference。Getting Start真没什么好东西。</p>
+</footer><!-- /.post-info -->                <p>Java 项目库看多了，尤其是Apache的，换上了严重的文档阅读恐惧症，严重倾向于阅读经过加工后的中文教材，然后去看reference。Getting Start真没什么好东西。</p>
 <h2>基础</h2>
 <p>Hibernate 是一个 ORM 框架，全称 Object-Relative Database-Mapping，显而易见，是一个在Java对象和关系型数据库之间建立连接的<strong>中间件</strong>。</p>
 <p>Hibernate在2005年被JBoss收购，JBoss之后被Red Hat收购，所以现在算起来HIbernate是Red Hat旗下的开源库了。</p>
 <p>早起Hibernate使用XML配置POJO（我现在的工程中使用的方法），现在的Hibernate支持JPA（Java Persistence API），也可以使用注解的方法配置（今天在浏览 Spring 框架的时候，看到也有一个 Spring Data，之后也可稍作研究）。</p>
 <h2>使用笔记</h2>
-<p>创建一个类，推荐为POJO，使用<code>@Entity</code>注解，使之为一个实体类，既与数据库有映射关系。实体类还需要在类声明处用<code>@Table</code>注解表明，属性处用<code>@id</code>定义主键，<code>@Column</code>定义列；还有其他的一些外键和类型注解。</p>
-<p>Hibernate 通常还需要一个工具类，官方提供了HibernateUtil，用于方便创建Session，Transaction等。<code>SessionFactory</code>是一个线程安全的 Session 工厂类；得到Session后，每次执行请求，都需要打开Session，打开Transaction，执行请求，关闭Transaction，关闭Session。这种重复工作显然不合理。</p>
-<p>在Web中使用 Hibernate，配置文件要设置<code>current_session_context_class</code>为thread (for tomcat,不知为何)。</p>
-<p>推荐为 Hibernate 设置乐观锁，在POJO中增加一列</p>
-<div class="highlight"><pre><span class="nd">@Version</span>
-<span class="kd">private</span> <span class="kt">int</span> <span class="n">version</span><span class="o">;</span>
-</pre></div>
-
-
-<p>问题是，会在数据库表中增加一列Version么？难道数据库的全部配置都要交给Hibernate，由Hibernate自动创建数据库么？一般来说，不都是DBA完成数据库的创建、调优，然后中间层只是方便CURD么？那么Hibernate如何利用View呢？</p>
-<h2>外联关系</h2>
-<p>Hibernate会自动处理复杂的外链关系，在声明POJO的时候需要配合注解使用。在配置文件中可以设置，取数据时是否连带外键一同获取，并且设置深度。cascade属性可以配置是否保存对象的同时保存外键。</p>
-<p>查询外键的时候有延时加载和即时加载两种模式，推荐使用延迟加载（默认选项），获取更好的性能，但是也要考虑可能的异常（数据库连接断掉）。</p>
-<h2>HQL</h2>
-<p>HQL相对于SQL，只是针对面向对象的设计做了小修改。需要有如下注意点：</p>
-<ol>
-<li>在设计类名、包名时，大小写敏感</li>
-<li>可以使用<code>select class</code>的方法获取对象，这种情况下也可以省略select语句。</li>
-<li>如果查询的不是整个对象，而是一些字段，可以选择返回<code>Object[]</code>, <code>List</code>, <code>Map</code>，语法细节查询文档。</li>
-<li>where字句允许通过.(dot)进行简单的外键访问，允许对集合类型调用size函数。</li>
-<li>推荐使用名称占位符<code>:name</code>写入数据，调用<code>setParamter</code>系列函数传入数据（不知道是否会转义）。</li>
-<li>分页可以调用Query对象的<code>setFirstResult</code>和<code>setMaxResults</code>函数。</li>
-<li>也支持各种join查询。</li>
-<li>用<code>SQLQuery</code>可以使用SQL进行查询，通过设置<code>addEntity</code>可以配置返回实体。</li>
-<li>常用的简单查询可以使用<code>@NamedQuery</code>配置。  </li>
-</ol>
-<h2>Spring DAO模块</h2>
-<p>如上所述，进行查询的时候通常需要一系列打开，关闭的琐碎操作，DAO层封装了这些操作。</p>
-<h2>Spring Service模块</h2>
-<h2>jOOQ</h2>
-<h2>torpedoquery</h2>
-<h2>Questions</h2>
-<p><code>@GeneratedValue</code>是否会和数据库默认的auto increment 冲突？</p>                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
+<p>创建一个类，推荐为POJO，使用<code>@Entity</code>注解，使之为一个实体类，既与数据库有映射关系。实体类还需要在类声明处用<code>@Table</code>注解表明，属性处用 ...</p>
+                <a class="readmore" href="http://pollow.github.io/hibernate-ru-men-bi-ji.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
 
             <li><article class="hentry">
                 <header>

@@ -1,5 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>pollow's blog</title><link href="http://pollow.github.io/" rel="alternate"></link><link href="http://pollow.github.io/feeds/all.atom.xml" rel="self"></link><id>http://pollow.github.io/</id><updated>2016-02-05T00:00:00+08:00</updated><entry><title>Hibernate 入门笔记</title><link href="http://pollow.github.io/hibernate-ru-men-bi-ji.html" rel="alternate"></link><updated>2016-02-05T00:00:00+08:00</updated><author><name>XING Chang</name></author><id>tag:pollow.github.io,2016-02-05:hibernate-ru-men-bi-ji.html</id><summary type="html">&lt;p&gt;Java 项目库看多了，尤其是Apache的，换上了严重的文档阅读恐惧症，严重倾向于阅读经过加工后的中文教材，然后去看reference。Getting Start真没什么好东西。&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>pollow's blog</title><link href="http://pollow.github.io/" rel="alternate"></link><link href="http://pollow.github.io/feeds/all.atom.xml" rel="self"></link><id>http://pollow.github.io/</id><updated>2016-02-09T00:00:00+08:00</updated><entry><title>Gradle in Action 阅读笔记</title><link href="http://pollow.github.io/gradle-in-action-yue-du-bi-ji.html" rel="alternate"></link><updated>2016-02-09T00:00:00+08:00</updated><author><name>XING Chang</name></author><id>tag:pollow.github.io,2016-02-09:gradle-in-action-yue-du-bi-ji.html</id><summary type="html">&lt;p&gt;最近发现各种技术书籍真是啰里啰嗦絮絮叨叨，就不能平铺直叙说清楚事情么……&lt;/p&gt;
+&lt;h2&gt;简洁&lt;/h2&gt;
+&lt;p&gt;Gradle的优点在于其保留了Ant、Maven的可扩展性，一定程度的向上兼容，方便历史项目缓慢的向Gradle迁移的同时，还提供更加简洁语法和底层的api，并且使用了Ivy和Maven的包仓库。&lt;strong&gt;这种借用流行的当前项目资源，提供向上兼容的同时提供更加优良的特性的开源项目开发方法，值得借鉴&lt;/strong&gt;。和Maven一样，Gradle不是简单的Make程序或者npm的包管理器，而是一整套的构建工具(building tools)，当然，对于个人小项目，使用它的主要目的也仅仅是make好依赖管理以及自动测试，对于团队来说，更好的分离了测试环境和产品部署，简化了持续交付。&lt;/p&gt;
+&lt;h2&gt;入门&lt;/h2&gt;
+&lt;h3&gt;构建&lt;/h3&gt;
+&lt;p&gt;Java项目的构建和部署本身十分繁杂，而且大多数情况下都仅仅使用默认配置(convention)。Gradle将这些convention总结起来，利用其插件机制作为了一个Java项目插件，只要在构建脚本（默认为&lt;code&gt;build.gradle&lt;/code&gt;，也可以在命令行中通过参数指定脚本）中使用此插件，即可包含所有的默认配置。所以，写一个简单的项目，并且在根目录新建包含如下内容的&lt;code&gt;build.gradle&lt;/code&gt;脚本：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;apply plugin: &amp;#39;java&amp;#39;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;在命令行中使用&lt;code&gt;gradle build&lt;/code&gt;命令即可完成构建。&lt;/p&gt;
+&lt;p&gt;显然，默认配置不能满足每个人自己的项目需求，我们需要自定义。只要在脚本后面加上属性值，即可覆盖默认设置：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;apply plugin: &amp;#39;java&amp;#39;
+version = 0.1
+sourceCompatibility = 1.8
+
+jar {
+    manifest {
+        attributes &amp;#39;Main-Class&amp;#39;: &amp;#39;me.aubee.todo.ToDoApp&amp;#39;
+    }
+}
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;这个脚本设置了当前应用的版本号（体现在jar包上），兼容的JRE环境，以及Manifest文件的启动路径（要打包成可执行的jar包(standalone)，还可以使用&lt;code&gt;application plugin&lt;/code&gt;，参见&lt;a href="https://docs.gradle.org/current/userguide/application_plugin.html"&gt;这个链接&lt;/a&gt;）。&lt;/p&gt;
+&lt;p&gt;所有可用的属性（properties）可以通过命令行&lt;code&gt;gradle properties&lt;/code&gt;查看。&lt;/p&gt;
+&lt;h3&gt;依赖&lt;/h3&gt;
+&lt;p&gt;由于之前最流行的依赖管理工具是Maven，所有Gradle支持使用Maven的软件仓库：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile group: &amp;#39;org.apache.commons&amp;#39;, name: &amp;#39;commons-lang3&amp;#39;, version: &amp;#39;3.1&amp;#39;
+}   
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;group, name, version 分别对应了Maven的groupId, artifactId和version。如上的依赖也可以写成简写&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;dependencies {
+    compile &amp;#39;org.apache.commons:commons-lang3:3.1&amp;#39;
+}   
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;这样，build的时候就会自动从Maven仓库中下载对应的jar包。&lt;/p&gt;
+&lt;h3&gt;Web Application&lt;/h3&gt;
+&lt;p&gt;使用&lt;code&gt;war plugin&lt;/code&gt;，默认需要将web resource放置到&lt;code&gt;src/main/webapp&lt;/code&gt;中，构建中会多出war环节。所有的webapp目录下的文件会被拷贝到WAR file的根下，编译的classes文件放置在&lt;code&gt;WEB-INF/classes&lt;/code&gt;下，所有的依赖放置在&lt;code&gt;WEB-INF/lib&lt;/code&gt;中，成为一个符合Java EE标准的war file，link到tomcat中即可使用。&lt;/p&gt;
+&lt;p&gt;还可以使用&lt;code&gt;jetty plugin&lt;/code&gt;，利用Gradle内嵌的一个jetty服务器运行webapp，但是由于过于legacy，暂时不作考虑。在构建的时候加一个soft link到tomcat的目录即可。&lt;/p&gt;
+&lt;h3&gt;Gradle Wrapper&lt;/h3&gt;
+&lt;p&gt;这是一个用来消除多人合作时，由于跨平台和不同版本Gradle引起的不兼容型问题的脚本工具。使用很简单，暂时也不需要，不多讨论。&lt;/p&gt;</summary></entry><entry><title>Hibernate 入门笔记</title><link href="http://pollow.github.io/hibernate-ru-men-bi-ji.html" rel="alternate"></link><updated>2016-02-05T00:00:00+08:00</updated><author><name>XING Chang</name></author><id>tag:pollow.github.io,2016-02-05:hibernate-ru-men-bi-ji.html</id><summary type="html">&lt;p&gt;Java 项目库看多了，尤其是Apache的，换上了严重的文档阅读恐惧症，严重倾向于阅读经过加工后的中文教材，然后去看reference。Getting Start真没什么好东西。&lt;/p&gt;
 &lt;h2&gt;基础&lt;/h2&gt;
 &lt;p&gt;Hibernate 是一个 ORM 框架，全称 Object-Relative Database-Mapping，显而易见，是一个在Java对象和关系型数据库之间建立连接的&lt;strong&gt;中间件&lt;/strong&gt;。&lt;/p&gt;
 &lt;p&gt;Hibernate在2005年被JBoss收购，JBoss之后被Red Hat收购，所以现在算起来HIbernate是Red Hat旗下的开源库了。&lt;/p&gt;
