@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>pollow's blog</title><link href="http://pollow.github.io/" rel="alternate"></link><link href="http://pollow.github.io/feeds/java.atom.xml" rel="self"></link><id>http://pollow.github.io/</id><updated>2016-02-09T00:00:00+08:00</updated><entry><title>Gradle in Action 阅读笔记</title><link href="http://pollow.github.io/gradle-in-action-yue-du-bi-ji.html" rel="alternate"></link><updated>2016-02-09T00:00:00+08:00</updated><author><name>XING Chang</name></author><id>tag:pollow.github.io,2016-02-09:gradle-in-action-yue-du-bi-ji.html</id><summary type="html">&lt;p&gt;最近发现各种技术书籍真是啰里啰嗦絮絮叨叨，就不能平铺直叙说清楚事情么……&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>pollow's blog</title><link href="http://pollow.github.io/" rel="alternate"></link><link href="http://pollow.github.io/feeds/java.atom.xml" rel="self"></link><id>http://pollow.github.io/</id><updated>2016-02-13T00:00:00+08:00</updated><entry><title>Spring MVC 入门笔记</title><link href="http://pollow.github.io/spring-mvc-ru-men-bi-ji.html" rel="alternate"></link><updated>2016-02-13T00:00:00+08:00</updated><author><name>XING Chang</name></author><id>tag:pollow.github.io,2016-02-13:spring-mvc-ru-men-bi-ji.html</id><summary type="html">&lt;p&gt;看了一遍入门手册，大概有点影响，但是版本略微有些老，所以为了流畅使用，又基本撸了一遍reference，中间还被莫名其妙的Spring Boot迷惑了半天，总算基本搞懂运行流程。&lt;/p&gt;
+&lt;h2&gt;基础知识&lt;/h2&gt;
+&lt;h2&gt;实际功能分析&lt;/h2&gt;
+&lt;h3&gt;Interceptor&lt;/h3&gt;
+&lt;p&gt;Interceptor的功能类似Servlet中的Filter。&lt;/p&gt;</summary></entry><entry><title>Gradle in Action 阅读笔记</title><link href="http://pollow.github.io/gradle-in-action-yue-du-bi-ji.html" rel="alternate"></link><updated>2016-02-09T00:00:00+08:00</updated><author><name>XING Chang</name></author><id>tag:pollow.github.io,2016-02-09:gradle-in-action-yue-du-bi-ji.html</id><summary type="html">&lt;p&gt;最近发现各种技术书籍真是啰里啰嗦絮絮叨叨，就不能平铺直叙说清楚事情么……&lt;/p&gt;
 &lt;h2&gt;简洁&lt;/h2&gt;
 &lt;p&gt;Gradle的优点在于其保留了Ant、Maven的可扩展性，一定程度的向上兼容，方便历史项目缓慢的向Gradle迁移的同时，还提供更加简洁语法和底层的api，并且使用了Ivy和Maven的包仓库。&lt;strong&gt;这种借用流行的当前项目资源，提供向上兼容的同时提供更加优良的特性的开源项目开发方法，值得借鉴&lt;/strong&gt;。和Maven一样，Gradle不是简单的Make程序或者npm的包管理器，而是一整套的构建工具(building tools)，当然，对于个人小项目，使用它的主要目的也仅仅是make好依赖管理以及自动测试，对于团队来说，更好的分离了测试环境和产品部署，简化了持续交付。&lt;/p&gt;
 &lt;h2&gt;入门&lt;/h2&gt;
@@ -49,7 +53,8 @@ dependencies {
 &lt;p&gt;使用&lt;code&gt;war plugin&lt;/code&gt;，默认需要将web resource放置到&lt;code&gt;src/main/webapp&lt;/code&gt;中，构建中会多出war环节。所有的webapp目录下的文件会被拷贝到WAR file的根下，编译的classes文件放置在&lt;code&gt;WEB-INF/classes&lt;/code&gt;下，所有的依赖放置在&lt;code&gt;WEB-INF/lib&lt;/code&gt;中，成为一个符合Java EE标准的war file，link到tomcat中即可使用。&lt;/p&gt;
 &lt;p&gt;还可以使用&lt;code&gt;jetty plugin&lt;/code&gt;，利用Gradle内嵌的一个jetty服务器运行webapp，但是由于过于legacy，暂时不作考虑。在构建的时候加一个soft link到tomcat的目录即可。&lt;/p&gt;
 &lt;h3&gt;Gradle Wrapper&lt;/h3&gt;
-&lt;p&gt;这是一个用来消除多人合作时，由于跨平台和不同版本Gradle引起的不兼容型问题的脚本工具。使用很简单，暂时也不需要，不多讨论。&lt;/p&gt;</summary></entry><entry><title>Hibernate 入门笔记</title><link href="http://pollow.github.io/hibernate-ru-men-bi-ji.html" rel="alternate"></link><updated>2016-02-05T00:00:00+08:00</updated><author><name>XING Chang</name></author><id>tag:pollow.github.io,2016-02-05:hibernate-ru-men-bi-ji.html</id><summary type="html">&lt;p&gt;Java 项目库看多了，尤其是Apache的，换上了严重的文档阅读恐惧症，严重倾向于阅读经过加工后的中文教材，然后去看reference。Getting Start真没什么好东西。&lt;/p&gt;
+&lt;p&gt;这是一个用来消除多人合作时，由于跨平台和不同版本Gradle引起的不兼容型问题的脚本工具。使用很简单，暂时也不需要，不多讨论。&lt;/p&gt;
+&lt;h2&gt;基础&lt;/h2&gt;</summary></entry><entry><title>Hibernate 入门笔记</title><link href="http://pollow.github.io/hibernate-ru-men-bi-ji.html" rel="alternate"></link><updated>2016-02-05T00:00:00+08:00</updated><author><name>XING Chang</name></author><id>tag:pollow.github.io,2016-02-05:hibernate-ru-men-bi-ji.html</id><summary type="html">&lt;p&gt;Java 项目库看多了，尤其是Apache的，换上了严重的文档阅读恐惧症，严重倾向于阅读经过加工后的中文教材，然后去看reference。Getting Start真没什么好东西。&lt;/p&gt;
 &lt;h2&gt;基础&lt;/h2&gt;
 &lt;p&gt;Hibernate 是一个 ORM 框架，全称 Object-Relative Database-Mapping，显而易见，是一个在Java对象和关系型数据库之间建立连接的&lt;strong&gt;中间件&lt;/strong&gt;。&lt;/p&gt;
 &lt;p&gt;Hibernate在2005年被JBoss收购，JBoss之后被Red Hat收购，所以现在算起来HIbernate是Red Hat旗下的开源库了。&lt;/p&gt;
@@ -65,6 +70,13 @@ dependencies {
 
 
 &lt;p&gt;问题是，会在数据库表中增加一列Version么？难道数据库的全部配置都要交给Hibernate，由Hibernate自动创建数据库么？一般来说，不都是DBA完成数据库的创建、调优，然后中间层只是方便CURD么？那么Hibernate如何利用View呢？&lt;/p&gt;
+&lt;h2&gt;Entity Class&lt;/h2&gt;
+&lt;p&gt;当一个类被&lt;code&gt;@Entity&lt;/code&gt;注解标记的时候，说明这个类：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;使用了标准的 JavaBean 约定。&lt;/li&gt;
+&lt;li&gt;必须包含无参构造函数，Hibernate会使用无参构造函数，利用Java反射创造实体。&lt;/li&gt;
+&lt;li&gt;Entity的属性默认为数据库的列，即使没有任何注解标明。&lt;/li&gt;
+&lt;/ol&gt;
 &lt;h2&gt;外联关系&lt;/h2&gt;
 &lt;p&gt;Hibernate会自动处理复杂的外链关系，在声明POJO的时候需要配合注解使用。在配置文件中可以设置，取数据时是否连带外键一同获取，并且设置深度。cascade属性可以配置是否保存对象的同时保存外键。&lt;/p&gt;
 &lt;p&gt;查询外键的时候有延时加载和即时加载两种模式，推荐使用延迟加载（默认选项），获取更好的性能，但是也要考虑可能的异常（数据库连接断掉）。&lt;/p&gt;
@@ -81,9 +93,13 @@ dependencies {
 &lt;li&gt;用&lt;code&gt;SQLQuery&lt;/code&gt;可以使用SQL进行查询，通过设置&lt;code&gt;addEntity&lt;/code&gt;可以配置返回实体。&lt;/li&gt;
 &lt;li&gt;常用的简单查询可以使用&lt;code&gt;@NamedQuery&lt;/code&gt;配置。  &lt;/li&gt;
 &lt;/ol&gt;
+&lt;h2&gt;JPA&lt;/h2&gt;
+&lt;p&gt;JPA 是 Java 指定的一组关于持久化的接口，Hibernate提供了相关的服务。相比于标准的 Hibernate 配置，JPA有自己的启动配置文件，名为&lt;code&gt;persistence.xml&lt;/code&gt;。和&lt;code&gt;hibernate.cfg.xml&lt;/code&gt;有所不同，但也十分接近。&lt;/p&gt;
+&lt;p&gt;具体的配置可以参考&lt;a href="http://docs.jboss.org/hibernate/orm/5.1/userguide/html_single/Hibernate_User_Guide.html#bootstrap-jpa"&gt;这个链接&lt;/a&gt;。&lt;/p&gt;
 &lt;h2&gt;Spring DAO模块&lt;/h2&gt;
 &lt;p&gt;如上所述，进行查询的时候通常需要一系列打开，关闭的琐碎操作，DAO层封装了这些操作。&lt;/p&gt;
 &lt;h2&gt;Spring Service模块&lt;/h2&gt;
+&lt;h2&gt;Spring Data&lt;/h2&gt;
 &lt;h2&gt;jOOQ&lt;/h2&gt;
 &lt;h2&gt;torpedoquery&lt;/h2&gt;
 &lt;h2&gt;Questions&lt;/h2&gt;

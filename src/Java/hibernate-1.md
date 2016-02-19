@@ -28,6 +28,14 @@ private int version;
 
 问题是，会在数据库表中增加一列Version么？难道数据库的全部配置都要交给Hibernate，由Hibernate自动创建数据库么？一般来说，不都是DBA完成数据库的创建、调优，然后中间层只是方便CURD么？那么Hibernate如何利用View呢？
 
+## Entity Class
+
+当一个类被`@Entity`注解标记的时候，说明这个类：
+
+1. 使用了标准的 JavaBean 约定。
+2. 必须包含无参构造函数，Hibernate会使用无参构造函数，利用Java反射创造实体。
+3. Entity的属性默认为数据库的列，即使没有任何注解标明。
+
 ## 外联关系
 
 Hibernate会自动处理复杂的外链关系，在声明POJO的时候需要配合注解使用。在配置文件中可以设置，取数据时是否连带外键一同获取，并且设置深度。cascade属性可以配置是否保存对象的同时保存外键。
@@ -48,11 +56,19 @@ HQL相对于SQL，只是针对面向对象的设计做了小修改。需要有�
 8. 用`SQLQuery`可以使用SQL进行查询，通过设置`addEntity`可以配置返回实体。
 9. 常用的简单查询可以使用`@NamedQuery`配置。	
 
+## JPA
+
+JPA 是 Java 指定的一组关于持久化的接口，Hibernate提供了相关的服务。相比于标准的 Hibernate 配置，JPA有自己的启动配置文件，名为`persistence.xml `。和`hibernate.cfg.xml`有所不同，但也十分接近。
+
+具体的配置可以参考[这个链接](http://docs.jboss.org/hibernate/orm/5.1/userguide/html_single/Hibernate_User_Guide.html#bootstrap-jpa)。
+
 ## Spring DAO模块
 
 如上所述，进行查询的时候通常需要一系列打开，关闭的琐碎操作，DAO层封装了这些操作。
 
 ## Spring Service模块
+
+## Spring Data
 
 ## jOOQ
 
