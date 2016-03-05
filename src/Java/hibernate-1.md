@@ -62,6 +62,8 @@ JPA 是 Java 指定的一组关于持久化的接口，Hibernate提供了相关�
 
 具体的配置可以参考[这个链接](http://docs.jboss.org/hibernate/orm/5.1/userguide/html_single/Hibernate_User_Guide.html#bootstrap-jpa)。
 
+虽然相对于 Native Hibernate API 损失了一些灵活性，并且无法利用更加OO的HQL，但是还是更加推荐使用JPA。官方统一的标准意味着后期更换 JPA Provider 会比较容易（虽然我认为没有必要）。
+
 ## Spring DAO模块
 
 如上所述，进行查询的时候通常需要一系列打开，关闭的琐碎操作，DAO层封装了这些操作。
