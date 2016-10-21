@@ -8,7 +8,7 @@ Date:2016-03-05
 
 ## Inner Class
 
-Java 允许在一个 Class 的内部声明另外一个一个 Class，这个特性被称为 nested class，如下：
+Java 允许在一个 Class 的内部声明另外一个 Class，这个特性被称为 nested class，如下：
 
 ```java
 class OuterClass {
@@ -39,7 +39,7 @@ class OuterClass {
 
 Nested Class 的可见性可以是 private, public, protected 或者 package private，含义明显，不赘述。
 
-在编译成.class文件的时候，所有的内部类都会被编译成单独的.class文件，末尾附带有$\d+的标志。
+**在编译成.class文件的时候，所有的内部类都会被编译成单独的.class文件，末尾附带有$\d+的标志。**
 
 ### Static Nested Class
 
@@ -64,11 +64,13 @@ OuterClass.InnerClass innerObject = outerObject.new InnerClass();
 
 ### Local Class
 
-Local Class 是定义在 Block 中的 Class, 在写UI(或者是频繁实例化 interface)的时候经常用到，值得注意的是 Local Class 只能访问 enclosing local scope 中的变量(Java 8 之前要求标志为final, Java 8 之后允许effectively final)。
+Local Class 是定义在 Block 中的 Class, 在写UI(或者是频繁实例化 interface)的时候经常用到，值得注意的是 Local Class 只能访问 enclosing local scope 中的变量(Java 8 之前要求标志为final, **Java 8 之后允许effectively final**)。
 
-Local Class 可以访问 Enclosing Class 的所有成员，但是注意，定义在 static 函数中的 Local Class 只能够访问 static 变量。Local Class 是 non-static Inner Class，因为他们都拥有对于 Enclosing Block 的访问权，所以 Local Class 和 Inner Class 类似，都不能够定义 static 成员。因此，也不能够在 Block 中定义 interface，因为 interface 本身是静态的。不过例外是，可以定义CONSTANT。
+Local Class 可以访问 Enclosing Class 的所有成员，但是注意，**定义在 static 函数中的 Local Class 只能够访问 static 变量**。Local Class 是 non-static Inner Class，因为他们都拥有对于 Enclosing Block 的访问权，所以 Local Class 和 Inner Class 类似，**都不能够定义 static 成员**。因此，也不能够在 Block 中定义 interface，因为 interface 本身是静态的。不过例外是，可以定义CONSTANT。
 
 ### Anonymous Class
 
 匿名类和 Local Class 完全一致，除了没有名字。支持匿名类完全是为了代码的简洁性。借助匿名类可以在声明 Local  Class 的同时直接实例化。实际使用中，**主要用作实现 interface**。
+
+## Genetic Type
 

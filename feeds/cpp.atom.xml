@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>pollow's blog</title><link href="http://pollow.github.io/" rel="alternate"></link><link href="http://pollow.github.io/feeds/cpp.atom.xml" rel="self"></link><id>http://pollow.github.io/</id><updated>2016-04-22T00:00:00+08:00</updated><entry><title>[Meeting C++ 2015] Compiler Optimization</title><link href="http://pollow.github.io/meeting-c-2015-compiler-optimization.html" rel="alternate"></link><updated>2016-04-22T00:00:00+08:00</updated><author><name>XING Chang</name></author><id>tag:pollow.github.io,2016-04-22:meeting-c-2015-compiler-optimization.html</id><summary type="html">&lt;p&gt;看到有人分享了一个 Cpp Conference 的&lt;a href="https://www.youtube.com/watch?v=FnGCDLhaxKU"&gt;视频&lt;/a&gt;，Chandler Carruth 的分享会议，
+讲解了LLVM对Cpp的优化操作。其实内容不仅Cpp，而是Optimizer的泛用策略，记一点笔记。&lt;/p&gt;
+&lt;h2&gt;LLVM IR&lt;/h2&gt;
+&lt;p&gt;LLVM的中间表示语言。大部分的中间表示语言都是&lt;a href="https://www.wikiwand.com/en/Static_single_assignment_form"&gt;SSA&lt;/a&gt;。LLVM IR
+是纯SSA，而GCC则支持一些非SSA的语法。使用这种语义主要为前端提供方便。&lt;/p&gt;
+&lt;p&gt;由于使用了SSA，所以在处理分支和迭代的时候需要特殊的指令支持，比如phi指令。&lt;/p&gt;
+&lt;h2&gt;Clean Up&lt;/h2&gt;
+&lt;p&gt;SSA带来的语言十分clutter，所以需要进一步 clean up 方便后面的phase做分析，以及频繁的内存读取操作也可以被简化。&lt;/p&gt;
+&lt;h2&gt;Concatulation&lt;/h2&gt;
+&lt;p&gt;同样的简单语义可以有不同的表达法（比如比较大小等），但是优化器不能针对每一种不同的写法设置优化，所以需要先将不同的表达归化
+为同样的结构，方便分析优化。&lt;/p&gt;
+&lt;h2&gt;Abstraction Collapse&lt;/h2&gt;
+&lt;h3&gt;inlining function call&lt;/h3&gt;
+&lt;p&gt;This is the single most important optimizaiton in modern computer.&lt;/p&gt;
+&lt;p&gt;A lot of variaty function (adapter) &lt;/p&gt;
+&lt;p&gt;Bottom-up &lt;/p&gt;
+&lt;h4&gt;Complexity&lt;/h4&gt;
+&lt;p&gt;measure the complexity of functions.&lt;/p&gt;
+&lt;h3&gt;Memory Abstraction Collapse&lt;/h3&gt;
+&lt;p&gt;Partition things. 当在内存中声明一个新的Struct，并且使用了其中的一些变量的时候，可以通过分析确定需要的变量的信息，
+从而避免声明这个Struct而是直接操作这些变量。（isolating）&lt;/p&gt;
+&lt;h2&gt;Loops&lt;/h2&gt;
+&lt;p&gt;没听懂，下次再听一下&lt;/p&gt;
+&lt;p&gt;Context Available&lt;/p&gt;</summary><category term="cpp"></category><category term="compiler"></category></entry></feed>

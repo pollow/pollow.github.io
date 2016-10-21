@@ -22,6 +22,7 @@
                     <li><a href="/archives">Archives</a></li>
                     <li><a href="http://pollow.github.io/pages/bookshelf.html">Bookshelf</a></li>
                     <li><a href="http://pollow.github.io/category/android.html">Android</a></li>
+                    <li><a href="http://pollow.github.io/category/cpp.html">Cpp</a></li>
                     <li><a href="http://pollow.github.io/category/diary.html">Diary</a></li>
                     <li><a href="http://pollow.github.io/category/java.html">Java</a></li>
                     <li><a href="http://pollow.github.io/category/vcs.html">VCS</a></li>
@@ -30,10 +31,57 @@
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="http://pollow.github.io/java-language-notes.html">Java Language Notes</a></h1>
+                    <h1 class="entry-title"><a href="http://pollow.github.io/meeting-c-2015-compiler-optimization.html">[Meeting C++ 2015] Compiler Optimization</a></h1>
 <footer class="post-info">
-        <abbr class="published" title="2016-03-05T22:20:30+08:00">
-                Published: 六 05 三月 2016
+        <abbr class="published" title="2016-04-22T00:00:00+08:00">
+                Published: 五 22 四月 2016
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="http://pollow.github.io/author/xing-chang.html">XING Chang</a>
+        </address>
+<p>In <a href="http://pollow.github.io/category/cpp.html">Cpp</a>.</p>
+<p>tags: <a href="http://pollow.github.io/tag/cpp.html">cpp</a> <a href="http://pollow.github.io/tag/compiler.html">compiler</a> </p>
+</footer><!-- /.post-info --><p>看到有人分享了一个 Cpp Conference 的<a href="https://www.youtube.com/watch?v=FnGCDLhaxKU">视频</a>，Chandler Carruth 的分享会议，
+讲解了LLVM对Cpp的优化操作。其实内容不仅Cpp，而是Optimizer的泛用策略，记一点笔记。</p>
+<h2>LLVM IR</h2>
+<p>LLVM的中间表示语言。大部分的中间表示语言都是<a href="https://www.wikiwand.com/en/Static_single_assignment_form">SSA</a>。LLVM IR
+是纯SSA，而GCC则支持一些非SSA的语法。使用这种语义主要为前端提供方便。</p>
+<p>由于使用了SSA，所以在处理分支和迭代的时候需要特殊的指令支持，比如phi指令。</p>
+<h2>Clean Up</h2>
+<p>SSA带来的语言十分clutter，所以需要进一步 clean up 方便后面的phase做分析，以及频繁的内存读取操作也可以被简化。</p>
+<h2>Concatulation</h2>
+<p>同样的简单语义可以有不同的表达法（比如比较大小等），但是优化器不能针对每一种不同的写法设置优化，所以需要先将不同的表达归化
+为同样的结构，方便分析优化。</p>
+<h2>Abstraction Collapse</h2>
+<h3>inlining function call</h3>
+<p>This is the single most important optimizaiton in modern computer.</p>
+<p>A lot of variaty function (adapter) </p>
+<p>Bottom-up </p>
+<h4>Complexity</h4>
+<p>measure the complexity of functions.</p>
+<h3>Memory Abstraction Collapse</h3>
+<p>Partition things. 当在内存中声明一个新的Struct，并且使用了其中的一些变量的时候，可以通过分析确定需要的变量的信息，
+从而避免声明这个Struct而是直接操作这些变量。（isolating）</p>
+<h2>Loops</h2>
+<p>没听懂，下次再听一下</p>
+<p>Context Available</p>                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="http://pollow.github.io/java-language-notes.html" rel="bookmark"
+                           title="Permalink to Java Language Notes">Java Language Notes</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2016-03-07T09:05:59+08:00">
+                Published: 一 07 三月 2016
         </abbr>
 
         <address class="vcard author">
@@ -41,10 +89,10 @@
         </address>
 <p>In <a href="http://pollow.github.io/category/java.html">Java</a>.</p>
 
-</footer><!-- /.post-info --><p>Date:2016-03-05</p>
+</footer><!-- /.post-info -->                <p>Date:2016-03-05</p>
 <p>虽然没有长期使用Java的打算，但是本着深入学习语言和设计的想法，还是决定多了解一些Java的高级用法。这几天计划着阅读 GSON 的代码，遇到了一些之前很少遇到的定义问题，简单记录和翻译一下官方文档，以便后人。</p>
 <h2>Inner Class</h2>
-<p>Java 允许在一个 Class 的内部声明另外一个一个 Class，这个特性被称为 nested class，如下：</p>
+<p>Java 允许在一个 Class 的内部声明另外一个 Class，这个特性被称为 nested class，如下：</p>
 <div class="highlight"><pre><span class="kd">class</span> <span class="nc">OuterClass</span> <span class="o">{</span>
     <span class="o">...</span>
     <span class="kd">class</span> <span class="nc">NestedClass</span> <span class="o">{</span>
@@ -67,36 +115,10 @@
 </pre></div>
 
 
-<p>被声明为 static 的内部类被叫做 static nested classes, 而 non-static 的就被叫做 inner class。</p>
-<p>所有的 Nested Class 都是外部类的成员，都可以访问到 enclosing class 的成员变量和方法。</p>
-<p>Nested Class 的可见性可以是 private, public, protected 或者 package private，含义明显，不赘述。</p>
-<p>在编译成.class文件的时候，所有的内部类都会被编译成单独的.class文件，末尾附带有$\d+的标志。</p>
-<h3>Static Nested Class</h3>
-<p>Static Nested Class 的特殊在于只能够访问 enclosing class 的静态方法和静态变量，同时可以被静态的使用(实例化)，并且可以拥有非静态的成员变量和方法。</p>
-<h3>Inner Class</h3>
-<p>Inner Class 总是伴随着一个实例化的 Enclosing Class，并且可以直接访问所有的成员和方法，并且由于它总是伴随着 Enclosing Class，所以不能够定义 static 成员在其中。因为 Inner Class 有 Enclosing Class 的引用，所以想要实例化一个 Inner Class, 必须首先实例化 Enclosing Class, 如下：</p>
-<div class="highlight"><pre><span class="kd">class</span> <span class="nc">OuterClass</span> <span class="o">{</span>
-    <span class="o">...</span>
-    <span class="kd">class</span> <span class="nc">InnerClass</span> <span class="o">{</span>
-        <span class="o">...</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-
-<span class="n">OuterClass</span><span class="o">.</span><span class="na">InnerClass</span> <span class="n">innerObject</span> <span class="o">=</span> <span class="n">outerObject</span><span class="o">.</span><span class="na">new</span> <span class="nf">InnerClass</span><span class="o">();</span>
-</pre></div>
-
-
-<p>我之所以对 Inner Class 产生疑问，就是因为在阅读 GSON 的 <a href="https://github.com/google/gson/blob/master/UserGuide.md#TOC-Overview">User Guide </a> 的时候看到，不支持直接实例化一个 Inner Class，从而感觉自己对 Inner Class 的语法和规范有所困惑。</p>
-<h3>Local Class</h3>
-<p>Local Class 是定义在 Block 中的 Class, 在写UI(或者是频繁实例化 interface)的时候经常用到，值得注意的是 Local Class 只能访问 enclosing local scope 中的变量(Java 8 之前要求标志为final, Java 8 之后允许effectively final)。</p>
-<p>Local Class 可以访问 Enclosing Class 的所有成员，但是注意，定义在 static 函数中的 Local Class 只能够访问 static 变量。Local Class 是 non-static Inner Class，因为他们都拥有对于 Enclosing Block 的访问权，所以 Local Class 和 Inner Class 类似，都不能够定义 static 成员。因此，也不能够在 Block 中定义 interface，因为 interface 本身是静态的。不过例外是，可以定义CONSTANT。</p>
-<h3>Anonymous Class</h3>
-<p>匿名类和 Local Class 完全一致，除了没有名字。支持匿名类完全是为了代码的简洁性。借助匿名类可以在声明 Local  Class 的同时直接实例化。实际使用中，<strong>主要用作实现 interface</strong>。</p>                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
+<p>被声明为 static 的内部类被叫做 static nested classes, 而 non-static ...</p>
+                <a class="readmore" href="http://pollow.github.io/java-language-notes.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
 
             <li><article class="hentry">
                 <header>
@@ -322,34 +344,6 @@
 <li>随便建个工程，进入 AS 后打开 SDK Manager，下载如下项目：<ol>
 <li>Android SDK Tools ...</li></ol></li></ol>
                 <a class="readmore" href="http://pollow.github.io/android-xue-xi-ri-ji-day-1.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="http://pollow.github.io/brief-note-git-rebase-xiao-jie.html" rel="bookmark"
-                           title="Permalink to [Brief Note] Git rebase 小结">[Brief Note] Git rebase 小结</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2016-01-12T01:26:51+08:00">
-                Published: 二 12 一月 2016
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="http://pollow.github.io/author/xing-chang.html">XING Chang</a>
-        </address>
-<p>In <a href="http://pollow.github.io/category/vcs.html">VCS</a>.</p>
-<p>tags: <a href="http://pollow.github.io/tag/brief.html">brief</a> <a href="http://pollow.github.io/tag/git.html">git</a> </p>
-</footer><!-- /.post-info -->                <h2>Githug</h2>
-<p>前几天再 Timeline 上看到有人推荐了一款叫做 Githug 的小游戏，通过解决任务学习 Git 的操作使用。由于感觉自己对于 Git 的使用一直停留在比较初级的阶段，有比较多的知识盲点，所以决定下载下来玩一玩，顺便把<a href="">题解</a>和学习笔记分别记录一下。</p>
-<h2>Pro Git</h2>
-<p>开始的内容比较简单也比较顺利，在 level 28 第一次遇到了问题——涉及到了rebase。这个功能虽然之前也有使用，但是对于概念一直有所困惑，正巧同时再 Startup News 上看到<a href="http://git-scm.com/book/zh">《Pro Git 2ed》中文版</a>翻译校对完成，就顺手上去看了一下有关章节，在这里简略记录一些内容。</p>
-<h2>rebase</h2>
-<p>推荐阅读：<a href="http://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%8F%98%E5%9F%BA">3.6 Git 分支 - 变基</a></p>
-<p>Git 的分支合并有 <code>merge</code> 和 <code>rebase ...</code></p>
-                <a class="readmore" href="http://pollow.github.io/brief-note-git-rebase-xiao-jie.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
                 </ol><!-- /#posts-list -->
